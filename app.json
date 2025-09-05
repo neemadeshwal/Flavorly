@@ -5,33 +5,60 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "flavorly",
     "userInterfaceStyle": "automatic",
+    "owner": "neemadeshwal",
+
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.expo.flavorly",
+      "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.expo.flavorly",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "bundler": "metro",
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
+    "scheme": [
+      "facebookLogin",
+      "783390280747410",
+      "flavorly",
+      "com.expo.flavorly",
+      "com.googleusercontent.apps.426747981946-ac9j1e2um07ht8op1eb4ank3f761nkdu"
+    ],
     "plugins": [
       "expo-router",
+      "expo-secure-store",
+
+      "react-native-fbsdk-next",
+      {
+        "appID": "1836859623843054",
+        "clientToken": "43c54a288d50f3bd39775421d99ddc01",
+        "displayName": "RN SDK Demo",
+        "scheme": "fb1836859623843054",
+        "advertiserIDCollectionEnabled": false,
+        "autoLogAppEventsEnabled": false,
+        "isAutoInitEnabled": true,
+        "iosUserTrackingPermission": "This identifier will be used to deliver personalized ads to you."
+      },
+      "@react-native-firebase/app",
+      "@react-native-firebase/auth",
+      "@react-native-google-signin/google-signin",
       [
-        "expo-splash-screen",
+        "expo-build-properties",
         {
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
+          "ios": {
+            "useFrameworks": "static"
+          }
         }
       ]
     ],
