@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "426747981946",
+    "project_id": "flavorly-a87f6",
+    "storage_bucket": "flavorly-a87f6.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:426747981946:android:70ba6425351d9b9c39cbc3",
+        "android_client_info": {
+          "package_name": "com.expo.flavorly"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "426747981946-ac9j1e2um07ht8op1eb4ank3f761nkdu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.expo.flavorly",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "426747981946-eddrmo400vs12kq6cta7rbj0r8ek84n8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZ8SY2Wyclrl2qvezPLIHt9SyQ261Dijs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "426747981946-eddrmo400vs12kq6cta7rbj0r8ek84n8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "426747981946-voq1u9kje437gphjkue7pnansk4dui1b.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.expo.flavorly"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -57,7 +57,7 @@ const LandingScreen = () => {
           </Text>
           <View className="gap-[26px]">
             <TouchableOpacity
-              onPress={() => router.push("/login")}
+              onPress={() => router.push("/(auth)")}
               className="bg-button py-[16px] text-center rounded-[16px]"
             >
               <Text className="text-white text-center text-[18px]">Login</Text>

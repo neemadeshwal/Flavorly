@@ -1,7 +1,6 @@
 // app/(tabs)/_layout.tsx
 import { Icon } from "@/components/ui/icon";
-import { useAuthStore } from "@/stores/useUserStore";
-import { Redirect, Tabs } from "expo-router";
+import { Tabs } from "expo-router";
 import { HeartIcon, HomeIcon, SearchIcon, UserIcon } from "lucide-react-native";
 import { View } from "react-native";
 const TabIcon = ({ focused, icon }: { focused: boolean; icon: any }) => {
@@ -17,10 +16,10 @@ const TabIcon = ({ focused, icon }: { focused: boolean; icon: any }) => {
   );
 };
 export default function TabsLayout() {
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-  if (!isAuthenticated) {
-    return <Redirect href="/(auth)" />;
-  }
+  // const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  // if (!isAuthenticated) {
+  //   return <Redirect href="/(auth)" />;
+  // }
   return (
     <Tabs
       screenOptions={{

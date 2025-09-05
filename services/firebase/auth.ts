@@ -106,18 +106,31 @@ const checkEmailExists = async (email: string) => {
   }
 };
 
-export const signInWithGoogle = async (
-  promptAsync: () => Promise<any>
-): Promise<any> => {
+export const signInWithGoogle = async (authResponse: any): Promise<any> => {
   try {
-    const result = await promptAsync();
-    console.log(result);
-    if (result.type === "success") {
-      const { id_token, access_token } = result.params;
+    console.log("Processing auth response:", authResponse);
+
+    if (authResponse.type === "success") {
+      const { id_token, access_token } = authResponse.params;
+      console.log(
+        "Tokens received - ID Token:",
+        !!id_token,
+        "Access Token:",
+        !!access_token
+      );
 
       const credential = GoogleAuthProvider.credential(id_token, access_token);
       const userCredential = await signInWithCredential(auth, credential);
-      console.log(userCredential);
+      console.log("Firebase sign-in successful:", userCredential.user.email);
+
+      // Update your auth store
+      const user = userCredential.user;
+      const token = await user.getIdToken();
+
+      useAuthStore.getState().setUser(user);
+      useAuthStore.getState().setToken(token);
+      useAuthStore.getState().setLoading(false);
+
       return {
         success: true,
         user: userCredential.user,
@@ -126,9 +139,10 @@ export const signInWithGoogle = async (
 
     return {
       success: false,
-      error: "Sign-in was cancelled",
+      error: "Sign-in was cancelled or failed",
     };
   } catch (error) {
+    console.error("Firebase auth error:", error);
     return {
       success: false,
       error: error instanceof Error ? error.message : "Unknown error occurred",

@@ -13,7 +13,7 @@ export default {
       googleServicesFile: "./google-services.json",
     },
     ios: {
-      bundleIdentifier: "come.native.flavorly",
+      bundleIdentifier: "com.expo.flavorly",
       supportsTablet: true,
       googleServicesFile: "./GoogleService-Info.plist",
       infoPlist: {
