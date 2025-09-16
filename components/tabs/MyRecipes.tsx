@@ -56,7 +56,7 @@ const MyRecipes = () => {
   }
 
   return (
-    <View className="px-4">
+    <View className="px-4 flex-1">
       <Text
         style={{ fontFamily: "PoppinsSemiBold" }}
         className="text-[22px] capitalize mb-6"
@@ -75,7 +75,6 @@ const MyRecipes = () => {
           />
         )}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 100 }}
       />
 
       {/* Delete Confirmation Modal */}

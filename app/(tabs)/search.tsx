@@ -5,66 +5,102 @@ import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
 import { Text } from "@/components/ui/text";
 import { useEditorsChoiceList } from "@/Query/recipe";
 import { recipe } from "@/types";
+import { useRouter } from "expo-router";
 import { ArrowLeft, SearchIcon } from "lucide-react-native";
 import { useState } from "react";
-import { ScrollView, TouchableOpacity, View } from "react-native"; // Add this import
+import {
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+
 const Search = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const { data, isLoading, error } = useEditorsChoiceList();
+  const router = useRouter();
 
-  // Filter recipes based on title matching search query
   const filteredRecipes =
     data?.recipes?.filter((recipe: recipe) =>
       recipe.title.toLowerCase().includes(searchQuery.toLowerCase())
     ) || [];
 
   return (
-    <ScrollView
-      className="px-6 pt-20"
-      contentContainerStyle={{ paddingBottom: 100 }}
-      showsVerticalScrollIndicator={false}
-    >
-      <View>
-        <TouchableOpacity className="absolute top-1 left-0 text-gray-500">
-          <Icon as={ArrowLeft} className="w-10 h-10 text-gray-500" />
-        </TouchableOpacity>
-        <Text
-          style={{ fontFamily: "PoppinsSemiBold" }}
-          className=" text-[26px] capitalize text-center"
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
+        style={{ flex: 1 }}
+        keyboardVerticalOffset={80}
+      >
+        <ScrollView
+          contentContainerStyle={{
+            paddingHorizontal: 24,
+            paddingBottom: 100,
+            paddingTop: 40,
+            flexGrow: 1,
+          }}
+          keyboardShouldPersistTaps="handled"
         >
-          Search
-        </Text>
-      </View>
+          {/* Header + Back Button */}
+          <View style={{ position: "relative", marginBottom: 16 }}>
+            <TouchableOpacity
+              onPress={() => {
+                router.replace("/(tabs)");
+              }}
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                zIndex: 10,
+                padding: 4,
+              }}
+            >
+              <Icon as={ArrowLeft} className="w-8 h-8 text-gray-500" />
+            </TouchableOpacity>
 
-      {/* Search input */}
-      <View className="mt-6">
-        <Input className="rounded-[18px] h-[60px] border-2">
-          <InputSlot className="pl-3">
-            <InputIcon as={SearchIcon} />
-          </InputSlot>
-          <InputField
-            value={searchQuery}
-            onChangeText={(val) => setSearchQuery(val)}
-            className="text-[18px]"
-            placeholder="Search"
-          />
-        </Input>
-      </View>
+            <Text
+              style={{
+                fontFamily: "PoppinsSemiBold",
+              }}
+              className="text-[26px] text-center "
+            >
+              Search
+            </Text>
+          </View>
 
-      {/* Categories */}
-      <View className="mt-6">
-        <Category />
-      </View>
+          {/* Search Input */}
+          <View className="mt-4">
+            <Input className="rounded-[18px] h-[60px] border-2">
+              <InputSlot className="pl-3">
+                <InputIcon as={SearchIcon} />
+              </InputSlot>
+              <InputField
+                value={searchQuery}
+                onChangeText={(val) => setSearchQuery(val)}
+                className="text-[18px]"
+                placeholder="Search"
+              />
+            </Input>
+          </View>
 
-      {/* Editor's Choice */}
-      <View className="mt-6">
-        <EditorChoice
-          data={{ ...data, recipes: filteredRecipes }}
-          isLoading={isLoading}
-          error={error}
-        />
-      </View>
-    </ScrollView>
+          {/* Categories */}
+          <View className="mt-6">
+            <Category />
+          </View>
+
+          {/* Editor's Choice */}
+          <View className="mt-6">
+            <EditorChoice
+              data={{ ...data, recipes: filteredRecipes }}
+              isLoading={isLoading}
+              error={error}
+            />
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 };
 

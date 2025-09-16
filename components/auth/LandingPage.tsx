@@ -1,14 +1,20 @@
 import { images } from "@/constants/images";
 import { useRouter } from "expo-router";
 import React from "react";
-import { Dimensions, Image, TouchableOpacity, View } from "react-native";
+import {
+  Dimensions,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { Text } from "../ui/text";
 const { width, height } = Dimensions.get("window");
 const LandingScreen = () => {
   const router = useRouter();
 
   return (
-    <View className="bg-card dark:bg-button w-full h-full relative px-4">
+    <ScrollView className="bg-card dark:bg-button w-full h-full relative px-4">
       <Image className="absolute top-[50px] left-0 " source={images.bgLeft} />
       <Image
         style={{ position: "absolute", top: -10, right: 0 }}
@@ -25,7 +31,7 @@ const LandingScreen = () => {
         resizeMode="cover"
         source={images.bgDown}
       />
-      <View className="flex flex-col justify-center mt-8 items-center w-full h-full gap-16 px-[16px]">
+      <View className=" flex-col justify-center mt-8 items-center w-full h-full gap-16 px-[16px]">
         <View className=" gap-[36px] ">
           <Image className=" absolute h-full" source={images.bgLeaves} />
           <Image
@@ -52,7 +58,7 @@ const LandingScreen = () => {
             <Image className=" mx-1" source={images.chicken} />
           </View>
         </View>
-        <View className="gap-[26px] mt-5">
+        <View className="gap-[26px] mt-5 mb-10">
           <Text className="text-white  text-center font-bold text-[28px] leading-[40px]">
             Help your path to health goals with happiness
           </Text>
@@ -71,7 +77,7 @@ const LandingScreen = () => {
           </View>
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 export default LandingScreen;

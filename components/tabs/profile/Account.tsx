@@ -50,7 +50,7 @@ const Account = ({ account }: any) => {
         </View>
 
         {/* Content */}
-        <View className="flex-1 mr-3">
+        <View className=" mr-3">
           <Text
             style={{ fontFamily: "PoppinsSemiBold" }}
             className="text-[19px] text-gray-900 dark:text-gray-300 capitalize leading-6"
@@ -67,7 +67,7 @@ const Account = ({ account }: any) => {
         </View>
 
         {/* Arrow */}
-        <View className="bg-card dark:bg-button  p-3 rounded-full shadow-sm">
+        <View className="bg-card absolute right-2 dark:bg-button  p-3 rounded-full shadow-sm">
           <Icon as={ArrowRight} className="text-white w-5 h-5" />
         </View>
       </TouchableOpacity>

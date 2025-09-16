@@ -79,7 +79,7 @@ const EditorChoice = ({
               scaleTo={1.05}
               onPress={() => router.push(`/recipe/${item._id}`)}
             >
-              <View className="bg-white dark:bg-[#202225] shadow-2xl mb-6 flex p-4 rounded-[15px] flex-row gap-3 w-full h-auto">
+              <View className="bg-white dark:bg-[#202225] mb-6 flex p-4 rounded-[15px] flex-row gap-3 w-full h-auto">
                 {/* Recipe Image */}
                 <View className="flex items-center justify-center w-[120px] h-[100px]">
                   <Image

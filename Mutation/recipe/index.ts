@@ -86,17 +86,17 @@ export const useLikeRecipeMutation = () => {
     mutationFn: (id: string) => toggleLikeRecipe(id),
     onSuccess: () => {
       console.log("update recipe");
-      // showSuccessToast({
-      //   title: "recipe liked",
-      //   message: "successfull",
-      // });
+      showSuccessToast({
+        title: "recipe liked",
+        message: "successfull",
+      });
     },
     onError: () => {
-      // showErrorToast({
-      //   title: "Error logging In",
-      //   message: "An Error occured",
-      //   retryAction: () => {},
-      // });
+      showErrorToast({
+        title: "Error logging In",
+        message: "An Error occured",
+        retryAction: () => {},
+      });
     },
   });
 };

@@ -114,7 +114,7 @@ const RecipeDetail = () => {
         />
 
         <Button
-          onPress={() => router.back()}
+          onPress={() => router.push("/(tabs)")}
           className="bg-white shadow-xl absolute left-6 z-[1000] top-20"
         >
           <Icon as={X} className="text-black" />

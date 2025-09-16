@@ -13,31 +13,21 @@ const Signup = () => {
 
   return (
     <SafeAreaView style={{ flex: 1 }} edges={["top"]}>
-      <View className="bg-card" style={{ flex: 1 /* bg-card */ }}>
-        <KeyboardAwareScrollView
-          contentContainerStyle={{ flexGrow: 1 }}
-          enableOnAndroid={true}
-          extraScrollHeight={80}
-          keyboardShouldPersistTaps="handled"
-          showsVerticalScrollIndicator={false}
-        >
+      <KeyboardAwareScrollView
+        enableOnAndroid={true}
+        extraScrollHeight={80}
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ flexGrow: 1 }}
+      >
+        <View className="bg-card h-full">
           {/* Top Content */}
-          <View
-            style={{ alignItems: "center", paddingTop: 40, paddingBottom: 20 }}
-          >
+          <View style={{ alignItems: "center" }}>
             <Image
               source={images.signupBg}
               style={{ width: 112, height: 112 }}
             />
-            <Text
-              style={{
-                fontSize: 34,
-                fontWeight: "bold",
-                color: "white",
-                textAlign: "center",
-                marginTop: 12,
-              }}
-            >
+            <Text className="text-[34px] font-bold text-white text-center ">
               Join Our Community
             </Text>
             <Text
@@ -62,6 +52,7 @@ const Signup = () => {
               borderTopRightRadius: 40,
               paddingHorizontal: 24,
               paddingTop: 28,
+              marginTop: 30,
               paddingBottom: 60, // Make room for keyboard
             }}
           >
@@ -85,8 +76,8 @@ const Signup = () => {
               </Text>
             </TouchableOpacity>
           </View>
-        </KeyboardAwareScrollView>
-      </View>
+        </View>
+      </KeyboardAwareScrollView>
     </SafeAreaView>
   );
 };
