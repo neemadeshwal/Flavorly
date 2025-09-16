@@ -1,11 +1,12 @@
 import { Icon } from "@/components/ui/icon";
 import { Text } from "@/components/ui/text";
+import { UserData } from "@/types";
 import { useRouter } from "expo-router";
 import { ArrowRight } from "lucide-react-native";
 import React from "react";
 import { Image, TouchableOpacity, View } from "react-native";
 
-const Account = ({ account }: any) => {
+const Account = ({ account }: { account: UserData }) => {
   const router = useRouter();
   return (
     <View>
@@ -43,7 +44,7 @@ const Account = ({ account }: any) => {
                 className=" text-[20px] uppercase  text-white"
               >
                 {account.firstname.charAt(0)}
-                {account.lastname.charAt(0)}
+                {account.lastname && account.lastname.charAt(0)}
               </Text>
             </View>
           )}

@@ -1,5 +1,6 @@
 import { useLikeRecipeMutation } from "@/Mutation/recipe";
 import { useAuthStore } from "@/stores/useUserStore";
+import { recipe } from "@/types";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import SimpleLineIcons from "@expo/vector-icons/SimpleLineIcons";
 import { useRouter } from "expo-router";
@@ -17,7 +18,12 @@ const SingleRecipeCard = ({
   setSelectedRecipe,
   setIsDeleteContainer,
   setIsEditContainer,
-}: any) => {
+}: {
+  item: recipe;
+  setSelectedRecipe: React.Dispatch<React.SetStateAction<recipe | null>>;
+  setIsDeleteContainer: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsEditContainer: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const router = useRouter();
   const [isLiked, setIsLiked] = useState(false);
   const { favouriteArray, _id } = item;
