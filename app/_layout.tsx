@@ -6,34 +6,38 @@ import {
   ThemeProvider,
 } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import { Stack, usePathname, useRouter } from "expo-router";
-import { useEffect, useRef } from "react";
-import { Text as RNText, useColorScheme } from "react-native";
+import { Stack, usePathname } from "expo-router";
+import { useEffect } from "react";
+import { StatusBar, Text, useColorScheme, View } from "react-native";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
+import { Spinner } from "@/components/ui/spinner";
 import { auth } from "@/services/firebase/config";
 import { useAuthStore } from "@/stores/useUserStore";
 import { onAuthStateChanged } from "firebase/auth";
 import { Settings } from "react-native-fbsdk-next";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import setDefaultProps from "react-native-simple-default-props";
 
 const queryClient = new QueryClient();
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
+  const systemColorScheme = useColorScheme();
   const [fontsLoaded] = useFonts({
     Poppins: require("@/assets/fonts/Poppins-Regular.ttf"),
+    PoppinsSemiBold: require("@/assets/fonts/Poppins-SemiBold.ttf"),
+    PoppinsBold: require("@/assets/fonts/Poppins-Bold.ttf"),
+    PoppinsXBold: require("@/assets/fonts/Poppins-ExtraBold.ttf"),
   });
-
-  const didOverrideRef = useRef(false);
-  const router = useRouter();
 
   const path = usePathname();
   console.log("pathh ", path);
-  // Get auth state from store
+
+  // Get auth state from store with proper subscription
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const isLoading = useAuthStore((state) => state.isLoading);
+  const colorScheme = useAuthStore((state) => state.colorScheme); // ✅ Subscribe to color scheme
 
   // Initialize Facebook SDK once
   useEffect(() => {
@@ -43,12 +47,12 @@ export default function RootLayout() {
 
   // Override default font globally
   useEffect(() => {
-    if (fontsLoaded && !didOverrideRef.current) {
-      (RNText as any).defaultProps = {
-        ...(RNText as any).defaultProps,
-        style: [{ fontFamily: "Poppins" }, (RNText as any).defaultProps?.style],
-      };
-      didOverrideRef.current = true;
+    if (fontsLoaded) {
+      setDefaultProps(Text, {
+        style: {
+          fontFamily: "Poppins",
+        },
+      });
     }
   }, [fontsLoaded]);
 
@@ -71,12 +75,6 @@ export default function RootLayout() {
 
       // Update Zustand store with Firebase auth state
       useAuthStore.getState().setUser(firebaseUser);
-
-      if (firebaseUser) {
-        console.log("✅ User is authenticated - Firebase user found");
-      } else {
-        console.log("❌ User is not authenticated - No Firebase user");
-      }
     });
 
     return () => {
@@ -85,31 +83,70 @@ export default function RootLayout() {
     };
   }, []);
 
+  // ✅ Apply color scheme changes to StatusBar and system UI
+  useEffect(() => {
+    console.log("🎨 Applying color scheme:", colorScheme);
+
+    // Update StatusBar
+    StatusBar.setBarStyle(
+      colorScheme === "dark" ? "light-content" : "dark-content",
+      true
+    );
+
+    // Set StatusBar background color
+    StatusBar.setBackgroundColor(
+      colorScheme === "dark" ? "#1a1a1a" : "#ffffff",
+      true
+    );
+  }, [colorScheme]);
+
   // Debug auth state changes
   useEffect(() => {
     console.log("🔍 AUTH STATE UPDATE:", {
       isAuthenticated,
       isLoading,
+      colorScheme,
       timestamp: new Date().toISOString(),
     });
-  }, [isAuthenticated, isLoading]);
+  }, [isAuthenticated, isLoading, colorScheme]);
 
   // Show loading while fonts load or auth initializes
   if (!fontsLoaded || isLoading) {
     console.log("⏳ Loading...", { fontsLoaded, isLoading });
-    return null; // You can replace with a loading component
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: colorScheme === "dark" ? "#181818" : "#ffffff",
+        }}
+      >
+        <StatusBar
+          barStyle={colorScheme === "dark" ? "light-content" : "dark-content"}
+          backgroundColor={colorScheme === "dark" ? "#1a1a1a" : "#ffffff"}
+        />
+        <Spinner />
+      </View>
+    );
   }
 
-  console.log("🎯 RENDERING LAYOUT:", { isAuthenticated });
+  console.log("🎯 RENDERING LAYOUT:", { isAuthenticated, colorScheme });
 
   return (
     <QueryClientProvider client={queryClient}>
-      <GluestackUIProvider mode="light">
+      <GluestackUIProvider mode={colorScheme}>
         <SafeAreaProvider>
           <ThemeProvider
             value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
           >
-            <Stack screenOptions={{ headerShown: false }}>{}</Stack>
+            <StatusBar
+              barStyle={
+                colorScheme === "dark" ? "light-content" : "dark-content"
+              }
+              backgroundColor={colorScheme === "dark" ? "#1a1a1a" : "#ffffff"}
+            />
+            <Stack screenOptions={{ headerShown: false }} />
           </ThemeProvider>
         </SafeAreaProvider>
       </GluestackUIProvider>

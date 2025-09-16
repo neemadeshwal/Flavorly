@@ -1,11 +1,13 @@
 // app/(tabs)/_layout.tsx
+import OpenAdd from "@/components/tabs/OpenAdd";
 import { Icon } from "@/components/ui/icon";
-import { Tabs } from "expo-router";
+import { useAuthStore } from "@/stores/useUserStore";
+import { Redirect, Tabs } from "expo-router";
 import { HeartIcon, HomeIcon, SearchIcon, UserIcon } from "lucide-react-native";
 import { View } from "react-native";
 const TabIcon = ({ focused, icon }: { focused: boolean; icon: any }) => {
   return (
-    <View className="p-4">
+    <View className="p-2">
       <Icon
         as={icon}
         className={`w-8 h-8 ${
@@ -16,69 +18,75 @@ const TabIcon = ({ focused, icon }: { focused: boolean; icon: any }) => {
   );
 };
 export default function TabsLayout() {
-  // const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-  // if (!isAuthenticated) {
-  //   return <Redirect href="/(auth)" />;
-  // }
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  if (!isAuthenticated) {
+    return <Redirect href="/(auth)" />;
+  }
   return (
-    <Tabs
-      screenOptions={{
-        tabBarShowLabel: false,
-        tabBarItemStyle: {
-          width: "100%",
-          height: "100%",
-          justifyContent: "center",
-          alignItems: "center",
-        },
-        tabBarStyle: {
-          height: 110,
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        },
-      }}
-    >
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: "index",
-          tabBarIcon: ({ focused }) => (
-            <TabIcon focused={focused} icon={HomeIcon} />
-          ),
-          headerShown: false,
+    <>
+      <Tabs
+        screenOptions={{
+          tabBarShowLabel: false,
+          tabBarItemStyle: {
+            width: "55%",
+            height: "55%",
+            justifyContent: "center",
+            alignItems: "center",
+          },
+          tabBarStyle: {
+            height: 100,
+            paddingBottom: 14,
+            paddingTop: 14,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          },
         }}
-      />
-      <Tabs.Screen
-        name="search"
-        options={{
-          title: "Search",
-          tabBarIcon: ({ focused }) => (
-            <TabIcon focused={focused} icon={SearchIcon} />
-          ),
-          headerShown: false,
-        }}
-      />
-      <Tabs.Screen
-        name="favourites"
-        options={{
-          title: "Favourites",
-          tabBarIcon: ({ focused }) => (
-            <TabIcon focused={focused} icon={HeartIcon} />
-          ),
-          headerShown: false,
-        }}
-      />
+      >
+        <Tabs.Screen
+          name="index"
+          options={{
+            title: "index",
+            tabBarIcon: ({ focused }) => (
+              <TabIcon focused={focused} icon={HomeIcon} />
+            ),
+            headerShown: false,
+          }}
+        />
+        <Tabs.Screen
+          name="search"
+          options={{
+            title: "Search",
+            tabBarIcon: ({ focused }) => (
+              <TabIcon focused={focused} icon={SearchIcon} />
+            ),
+            headerShown: false,
+          }}
+        />
 
-      <Tabs.Screen
-        name="profile"
-        options={{
-          title: "Profile",
-          tabBarIcon: ({ focused }) => (
-            <TabIcon focused={focused} icon={UserIcon} />
-          ),
-          headerShown: false,
-        }}
-      />
-    </Tabs>
+        <Tabs.Screen
+          name="favourites"
+          options={{
+            title: "Favourites",
+            tabBarIcon: ({ focused }) => (
+              <TabIcon focused={focused} icon={HeartIcon} />
+            ),
+            headerShown: false,
+          }}
+        />
+
+        <Tabs.Screen
+          name="profile"
+          options={{
+            title: "Profile",
+            tabBarIcon: ({ focused }) => (
+              <TabIcon focused={focused} icon={UserIcon} />
+            ),
+            headerShown: false,
+          }}
+        />
+      </Tabs>
+      <OpenAdd />
+    </>
   );
 }

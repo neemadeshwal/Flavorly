@@ -1,7 +1,8 @@
+import { Text } from "@/components/ui/text";
 import { images } from "@/constants/images";
 import { useRouter } from "expo-router";
 import React from "react";
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import { Image, TouchableOpacity, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { SafeAreaView } from "react-native-safe-area-context";
 import SocialLogin from "../login/socialLogin";
@@ -69,16 +70,16 @@ const Signup = () => {
             <SocialLogin />
 
             <TouchableOpacity
-              onPress={() => router.push("/login")}
+              onPress={() => router.push("/(auth)")}
               style={{ marginTop: 20 }}
             >
               <Text
                 style={{
-                  color: "#16A34A",
                   fontSize: 18,
                   fontWeight: "600",
                   textAlign: "center",
                 }}
+                className="text-colored"
               >
                 Already a member? Sign in
               </Text>

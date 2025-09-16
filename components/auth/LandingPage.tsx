@@ -1,13 +1,14 @@
 import { images } from "@/constants/images";
 import { useRouter } from "expo-router";
 import React from "react";
-import { Dimensions, Image, Text, TouchableOpacity, View } from "react-native";
+import { Dimensions, Image, TouchableOpacity, View } from "react-native";
+import { Text } from "../ui/text";
 const { width, height } = Dimensions.get("window");
 const LandingScreen = () => {
   const router = useRouter();
 
   return (
-    <View className="bg-card w-full h-full relative px-4">
+    <View className="bg-card dark:bg-button w-full h-full relative px-4">
       <Image className="absolute top-[50px] left-0 " source={images.bgLeft} />
       <Image
         style={{ position: "absolute", top: -10, right: 0 }}
@@ -52,7 +53,7 @@ const LandingScreen = () => {
           </View>
         </View>
         <View className="gap-[26px] mt-5">
-          <Text className="text-white text-center font-bold text-[28px] leading-[40px]">
+          <Text className="text-white  text-center font-bold text-[28px] leading-[40px]">
             Help your path to health goals with happiness
           </Text>
           <View className="gap-[26px]">

@@ -5,12 +5,13 @@ import { User } from "firebase/auth";
 import { create } from "zustand";
 
 async function persistToSecureStore(state: Partial<AuthState>) {
-  const { token, user, isAuthenticated } = state;
+  const { token, user, isAuthenticated, colorScheme } = state;
 
   try {
     const dataToStore = {
       token,
       isAuthenticated,
+      colorScheme,
       user: user
         ? {
             uid: user.uid,
@@ -34,12 +35,24 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   token: null,
   email: null,
   isLoading: true,
+  colorScheme: "light",
   isAuthenticated: false,
+  userName: "",
 
   // Set email for forms
   setEmail: (email: string) => {
     console.log("📧 Setting email:", email);
     set({ email });
+  },
+  setUserName: (name: string) => {
+    set({ userName: name });
+  },
+  setColorScheme: (val: "light" | "dark") => {
+    console.log("🎨 Setting color scheme:", val);
+    const newState = { colorScheme: val };
+    set(newState);
+    // ✅ Persist colorScheme changes
+    persistToSecureStore({ ...get(), ...newState });
   },
 
   // Set token and persist
@@ -132,22 +145,26 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         const parsed = JSON.parse(data);
         console.log("📱 Found stored auth data:", {
           hasUser: !!parsed.user,
+          hasToken: !!parsed.token,
           isAuthenticated: !!parsed.isAuthenticated,
         });
 
-        set({
-          user: parsed.user,
-          token: parsed.token,
-          isAuthenticated: !!parsed.user && !!parsed.isAuthenticated,
-          isLoading: false,
-        });
+        console.log(parsed.token, "token");
 
-        console.log("✅ Auth initialized from storage");
+        const isAuthenticated = !!parsed.token && !!parsed.user;
+
+        set({
+          token: parsed.token,
+          isAuthenticated: isAuthenticated,
+          isLoading: parsed.isLoading,
+          user: parsed.user,
+        });
       } else {
         console.log("📭 No stored auth data found");
         set({
           isLoading: false,
           isAuthenticated: false,
+          token: null,
         });
       }
     } catch (err) {

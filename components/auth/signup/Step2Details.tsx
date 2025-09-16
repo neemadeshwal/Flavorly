@@ -8,6 +8,7 @@ import {
 import { EyeIcon, EyeOffIcon, Icon } from "@/components/ui/icon";
 import { Input, InputField } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
+import { Text } from "@/components/ui/text";
 import { VStack } from "@/components/ui/vstack";
 import { signupSchema } from "@/schema";
 import { useAuthStore } from "@/stores/useUserStore";
@@ -16,7 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 const Step2Details = () => {
   const {
     control,
@@ -64,7 +65,7 @@ const Step2Details = () => {
   if (!email) return null;
 
   return (
-    <View className="flex flex-col bg-white  ">
+    <View className="flex flex-col bg-white dark:bg-[#181818]  ">
       <View className="mb-8 flex flex-col gap-3">
         <Text className="text-[24px] text-center font-semibold">
           Tell us about yourself
@@ -158,7 +159,7 @@ const Step2Details = () => {
             <InputField
               type="text"
               value={email}
-              className="text-black placeholder:text-gray-400 placeholder:font-[500] text-[20px]"
+              className="text-black placeholder:font-[500] text-[20px]"
               placeholder="Enter your email"
             />
           </Input>
@@ -295,7 +296,7 @@ const Step2Details = () => {
       {/* Submit Button */}
       <View className="mt-8">
         <Button
-          className="w-full py-4 text-white bg-card h-[70px] rounded-2xl"
+          className="w-full py-4 text-white bg-card  dark:bg-button h-[70px] rounded-2xl"
           onPress={handleSubmit(onSubmit)}
         >
           {signupMutation.isPending ? (

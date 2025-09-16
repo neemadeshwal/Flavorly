@@ -4,11 +4,12 @@ import {
   FormControlLabelText,
 } from "@/components/ui/form-control";
 import React from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 
 import { Button, ButtonText } from "@/components/ui/button";
 import { Input, InputField } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
+import { Text } from "@/components/ui/text";
 import { VStack } from "@/components/ui/vstack";
 import { useEmailCheckMutation } from "@/Mutation/auth";
 import { EmailSchema } from "@/schema";
@@ -92,7 +93,7 @@ const Step1Email = () => {
 
       <View className="mt-8">
         <Button
-          className="w-full py-4 text-white bg-card h-[70px] rounded-2xl"
+          className="w-full py-4 text-white bg-card dark:bg-button h-[70px] rounded-2xl"
           onPress={handleSubmit(onSubmitEmail)}
         >
           {emailMutation.isPending ? (

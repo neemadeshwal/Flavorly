@@ -15,7 +15,20 @@ import salmon from "@/assets/images/salmon.png";
 import googleIcon from "@/assets/images/googleIcon.webp";
 import signupBg from "@/assets/images/signupBg.png";
 
+import cardLineTop from "@/assets/images/cardBgLine.png";
 import facebookIcon from "@/assets/images/facebookIcon.webp";
+
+import calorie from "@/assets/images/cal.png";
+import caloriesIcon from "@/assets/images/calIcon.png";
+import carbs from "@/assets/images/carbs.png";
+import cardBgRight from "@/assets/images/CardBgRight.png";
+import cardBgLeft from "@/assets/images/cardLeftBg.png";
+import cardLineBottom from "@/assets/images/CardLintBottom.png";
+import cardBgTop from "@/assets/images/CardTopBg.png";
+import fat from "@/assets/images/fats.png";
+import likeHeart from "@/assets/images/likedHeart.png";
+import protein from "@/assets/images/proteins.png";
+import unlikeHeart from "@/assets/images/unlikeHeart.png";
 
 export const images = {
   bgLeft,
@@ -34,4 +47,16 @@ export const images = {
   signupBg,
   googleIcon,
   facebookIcon,
+  cardBgLeft,
+  cardBgRight,
+  cardBgTop,
+  cardLineBottom,
+  cardLineTop,
+  caloriesIcon,
+  likeHeart,
+  unlikeHeart,
+  carbs,
+  calorie,
+  fat,
+  protein,
 };

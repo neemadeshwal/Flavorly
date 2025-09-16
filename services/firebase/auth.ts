@@ -7,10 +7,11 @@ import {
   signInWithCredential,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { AccessToken, LoginManager } from "react-native-fbsdk-next";
 import { auth, db } from "./config";
 
+import { createUserInBackend, getUserDetail } from "@/api/auth";
 import { useAuthStore } from "@/stores/useUserStore";
 const handleSignup = async ({
   email,
@@ -35,7 +36,6 @@ const handleSignup = async ({
       lastname,
       phone,
     };
-    await storeDataInFirestore(data);
 
     const user = response.user;
     const token = await user.getIdToken();
@@ -44,7 +44,7 @@ const handleSignup = async ({
     useAuthStore.getState().setToken(token);
     useAuthStore.getState().setLoading(false);
 
-    return response.user;
+    return { user: response.user, data };
   } catch (error) {
     console.error("Error signing up", error);
     useAuthStore.getState().setLoading(false);
@@ -56,11 +56,23 @@ const handleSignIn = async ({ email, password }: loginFormProps) => {
 
   try {
     const response = await signInWithEmailAndPassword(auth, email, password);
-    console.log("User logged in successful");
+
     const user = response.user;
     const token = await user.getIdToken();
     useAuthStore.getState().setUser(user);
     useAuthStore.getState().setToken(token);
+    const userData = await getUserDetail(user.uid);
+
+    console.log(userData, "userdata");
+
+    if (!userData.success) {
+      throw new Error(userData.message || "User donot exist in db.");
+    }
+    console.log("User logged in successful");
+
+    useAuthStore
+      .getState()
+      .setUserName(userData.data.firstname + " " + userData.data.lastname);
     useAuthStore.getState().setLoading(false);
 
     return response.user;
@@ -69,20 +81,6 @@ const handleSignIn = async ({ email, password }: loginFormProps) => {
     useAuthStore.getState().setLoading(false);
 
     throw error;
-  }
-};
-
-const storeDataInFirestore = async (data: signupFormProps) => {
-  try {
-    const response = await addDoc(collection(db, "users"), {
-      data,
-
-      Timestamp: new Date(),
-    });
-    console.log("Document written with Id: ", response.id);
-    return true;
-  } catch (error) {
-    console.error("Error adding document: ", error);
   }
 };
 
@@ -129,6 +127,26 @@ export const signInWithGoogle = async (authResponse: any): Promise<any> => {
 
       useAuthStore.getState().setUser(user);
       useAuthStore.getState().setToken(token);
+      const userData = await getUserDetail(userCredential.user.uid);
+      if (!userData.success) {
+        const normalizedEmail = userCredential.user.email?.trim().toLowerCase();
+
+        const data = {
+          email: normalizedEmail,
+          uid: userCredential.user.uid,
+          firstname: userCredential.user.displayName,
+          photoUrl: userCredential.user.photoURL,
+          phoneNumber: userCredential.user.phoneNumber,
+        };
+        const response = await createUserInBackend(data);
+        if (!response.success) {
+          throw new Error(
+            response.message || "Failed to create user in backend"
+          );
+        }
+      }
+      useAuthStore.getState().setUserName(userCredential.user.displayName!);
+
       useAuthStore.getState().setLoading(false);
 
       return {
@@ -180,9 +198,34 @@ export async function signInWithFB() {
 
   console.log(token);
 
+  console.log(userCredential.user, "user creds");
+  console.log(facebookCredential, "fb creds");
+
   useAuthStore.getState().setUser(user);
   useAuthStore.getState().setToken(token);
+
+  const userData = await getUserDetail(userCredential.user.uid);
+  if (!userData.success) {
+    const normalizedEmail = userCredential.user.email?.trim().toLowerCase();
+
+    const data = {
+      email: normalizedEmail,
+      uid: userCredential.user.uid,
+      firstname: userCredential.user.displayName,
+      photoUrl: userCredential.user.photoURL,
+      phoneNumber: userCredential.user.phoneNumber,
+    };
+    const response = await createUserInBackend(data);
+    if (!response.success) {
+      throw new Error(response.message || "Failed to create user in backend");
+    }
+  }
+  useAuthStore.getState().setUserName(userCredential.user.displayName!);
+
   useAuthStore.getState().setLoading(false);
-  return true;
+  return {
+    success: true,
+    user: userCredential.user,
+  };
 }
 export { checkEmailExists, handleSignIn, handleSignup };

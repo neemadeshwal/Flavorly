@@ -7,6 +7,7 @@ import {
 import { EyeIcon, EyeOffIcon, Icon } from "@/components/ui/icon";
 import { Input, InputField } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
+import { Text } from "@/components/ui/text";
 import { VStack } from "@/components/ui/vstack";
 import { useLoginMutation } from "@/Mutation/auth";
 import { loginSchema } from "@/schema";
@@ -15,7 +16,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Text } from "react-native";
 
 const LoginForm = () => {
   const router = useRouter();

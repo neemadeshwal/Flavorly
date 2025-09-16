@@ -1,7 +1,8 @@
+import { Text } from "@/components/ui/text";
 import { images } from "@/constants/images";
 import { useRouter } from "expo-router";
 import React from "react";
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import { Image, TouchableOpacity, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { SafeAreaView } from "react-native-safe-area-context";
 import LoginForm from "./loginForm";
@@ -18,8 +19,9 @@ const Login = () => {
         extraScrollHeight={60} // Scrolls the form up when focused
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
+        className="bg-card dark:bg-button"
       >
-        <View className="bg-card w-full pt-14 items-center">
+        <View className="bg-card dark:bg-button w-full pt-14 items-center">
           <Image source={images.loginBg} className="w-24 h-24" />
           <Text className="text-[34px] text-white font-bold text-center">
             Welcome Back
@@ -29,7 +31,7 @@ const Login = () => {
           </Text>
         </View>
 
-        <View className="bg-white rounded-t-[40px] px-10 py-5 mt-5">
+        <View className="bg-white dark:bg-black rounded-t-[40px] px-10 py-5 ">
           <LoginForm />
           <SocialLogin />
           <TouchableOpacity
