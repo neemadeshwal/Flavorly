@@ -8,13 +8,7 @@ import { recipe } from "@/types";
 import { useRouter } from "expo-router";
 import { ArrowLeft, SearchIcon } from "lucide-react-native";
 import { useState } from "react";
-import {
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { KeyboardAvoidingView, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const Search = () => {
@@ -30,19 +24,11 @@ const Search = () => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
       <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
         style={{ flex: 1 }}
+        behavior="padding"
         keyboardVerticalOffset={80}
       >
-        <ScrollView
-          contentContainerStyle={{
-            paddingHorizontal: 24,
-            paddingBottom: 100,
-            paddingTop: 40,
-            flexGrow: 1,
-          }}
-          keyboardShouldPersistTaps="handled"
-        >
+        <View style={{ flex: 1, paddingHorizontal: 24, paddingTop: 40 }}>
           {/* Header + Back Button */}
           <View style={{ position: "relative", marginBottom: 16 }}>
             <TouchableOpacity
@@ -64,7 +50,7 @@ const Search = () => {
               style={{
                 fontFamily: "PoppinsSemiBold",
               }}
-              className="text-[26px] text-center "
+              className="text-[26px] text-center"
             >
               Search
             </Text>
@@ -86,19 +72,19 @@ const Search = () => {
           </View>
 
           {/* Categories */}
-          <View className="mt-6">
+          <View className="mt-6" style={{ height: "auto" }}>
             <Category />
           </View>
 
-          {/* Editor's Choice */}
-          <View className="mt-6">
+          {/* Editor's Choice - Give it the remaining space */}
+          <View style={{ flex: 1, marginTop: 24 }}>
             <EditorChoice
               data={{ ...data, recipes: filteredRecipes }}
               isLoading={isLoading}
               error={error}
             />
           </View>
-        </ScrollView>
+        </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );

@@ -27,7 +27,7 @@ const OpenAdd = () => {
           animationType="fade"
           onRequestClose={() => setIsAddDialogOpen(false)}
         >
-          <View className="flex-1 bg-gray-800/50 bg-opacity-50 justify-center items-center">
+          <View className="flex-1 bg-opacity-50 justify-center items-center">
             <AddRecipe setCloseDialog={setIsAddDialogOpen} />
           </View>
         </Modal>

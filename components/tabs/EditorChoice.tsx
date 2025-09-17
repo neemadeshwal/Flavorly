@@ -22,7 +22,7 @@ const EditorChoice = ({
 
   if (isLoading) {
     return (
-      <View className="flex-1 justify-center items-center">
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <Spinner />
       </View>
     );
@@ -30,7 +30,7 @@ const EditorChoice = ({
 
   if (error || !data?.success) {
     return (
-      <View className="flex-1 justify-center items-center">
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <Text className="text-red-500 text-[16px]">
           Oops! An error occurred.
         </Text>
@@ -40,7 +40,7 @@ const EditorChoice = ({
 
   if (!data.recipes?.length) {
     return (
-      <View className="flex-1 justify-center items-center">
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <Text className="text-gray-500 text-[18px] text-center">
           No editors choice recipes. Try adding one.
         </Text>
@@ -63,9 +63,8 @@ const EditorChoice = ({
         data={data.recipes}
         showsVerticalScrollIndicator={false}
         keyExtractor={(item) => item._id}
-        style={{ flex: 1 }}
         contentContainerStyle={{
-          paddingBottom: 20,
+          paddingBottom: 20, // Add bottom padding for safe area
         }}
         renderItem={({ item, index }) => (
           <FadeInView
@@ -73,12 +72,14 @@ const EditorChoice = ({
             index={index}
             staggerDelay={150}
             key={item._id}
+            style={{ backgroundColor: "" }}
           >
             <AnimatedPressable
               scaleTo={1.05}
+              className="bg-white"
               onPress={() => router.push(`/recipe/${item._id}`)}
             >
-              <View className="bg-white dark:bg-[#202225] mb-6 flex p-4 rounded-[15px] flex-row gap-3 w-full h-auto">
+              <View className="bg-white shadow-xl dark:bg-[#202225] mb-6 flex p-4 rounded-[15px] flex-row gap-3 w-full">
                 {/* Recipe Image */}
                 <View className="flex items-center justify-center w-[120px] h-[100px]">
                   <Image
