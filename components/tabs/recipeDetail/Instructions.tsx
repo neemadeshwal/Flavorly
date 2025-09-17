@@ -12,7 +12,6 @@ const Instructions = ({
   instructions: instruction[];
   timeTaken: string;
 }) => {
-  console.log(instructions, "instructions");
   return (
     <View className="pt-8">
       <View className="flex flex-row justify-between items-center">

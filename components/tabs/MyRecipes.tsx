@@ -33,7 +33,6 @@ const MyRecipes = () => {
   }
 
   const { data, isLoading, error } = useGetMyRecipes(user.uid);
-  console.log(data, "data");
 
   if (isLoading) {
     return <Spinner />;

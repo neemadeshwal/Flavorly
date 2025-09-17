@@ -56,7 +56,6 @@ const ProfileDetails = ({
         uid: profileDetail.uid,
         userDetailData: values,
       });
-      console.log(response);
     } catch (error) {
       console.log(error);
     }

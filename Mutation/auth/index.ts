@@ -8,7 +8,7 @@ import useSuccessToast from "@/hooks/useSuccessToast";
 import { handleSignIn, handleSignup } from "@/services/firebase/auth";
 import { useAuthStore } from "@/stores/useUserStore";
 import { UserData } from "@/types";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 export const useSignupMutation = () => {
   const { showSuccessToast } = useSuccessToast();
   const { showErrorToast } = useErrorToast();
@@ -124,7 +124,7 @@ export const useLoginMutation = () => {
 export const useUpdateMutation = () => {
   const { showErrorToast } = useErrorToast();
   const { showSuccessToast } = useSuccessToast();
-
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({
       uid,
@@ -135,6 +135,7 @@ export const useUpdateMutation = () => {
     }) => updateUserDetail(uid, userDetailData),
     onSuccess: (data) => {
       if (data.success) {
+        queryClient.invalidateQueries({ queryKey: ["user-detail"] });
         showSuccessToast({
           title: "Success",
           message: "Profile updated successfully.",

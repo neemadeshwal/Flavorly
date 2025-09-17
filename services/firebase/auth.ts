@@ -63,8 +63,6 @@ const handleSignIn = async ({ email, password }: loginFormProps) => {
     useAuthStore.getState().setToken(token);
     const userData = await getUserDetail(user.uid);
 
-    console.log(userData, "userdata");
-
     if (!userData.success) {
       throw new Error(userData.message || "User donot exist in db.");
     }
@@ -92,7 +90,6 @@ const checkEmailExists = async (email: string) => {
       where("data.email", "==", normalizedEmail)
     );
     const querySnapshot = await getDocs(q);
-    console.log("Found documents:", querySnapshot.size);
     querySnapshot.forEach((doc) => {
       console.log("Document data:", doc.data());
     });
@@ -195,11 +192,6 @@ export async function signInWithFB() {
   // Sign-in the user with the credential
   const user = userCredential.user;
   const token = await user.getIdToken();
-
-  console.log(token);
-
-  console.log(userCredential.user, "user creds");
-  console.log(facebookCredential, "fb creds");
 
   useAuthStore.getState().setUser(user);
   useAuthStore.getState().setToken(token);

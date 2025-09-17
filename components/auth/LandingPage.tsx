@@ -9,12 +9,55 @@ import {
   View,
 } from "react-native";
 import { Text } from "../ui/text";
+
 const { width, height } = Dimensions.get("window");
+
 const LandingScreen = () => {
   const router = useRouter();
 
+  // Responsive spacing based on screen height
+  const isSmallScreen = height < 700; // iPhone SE and similar
+  const isMediumScreen = height >= 700 && height < 850; // iPhone 12, 13, 14
+  const isLargeScreen = height >= 850; // iPhone 14 Plus, 15 Plus, 16 Pro Max
+
+  const getResponsiveStyles = () => {
+    if (isSmallScreen) {
+      return {
+        topSpacing: 40,
+        foodItemsGap: 20,
+        textToButtonGap: 20,
+        bottomSpacing: 30,
+        fontSize: 24,
+        lineHeight: 32,
+      };
+    } else if (isMediumScreen) {
+      return {
+        topSpacing: 60,
+        foodItemsGap: 30,
+        textToButtonGap: 26,
+        bottomSpacing: 50,
+        fontSize: 28,
+        lineHeight: 40,
+      };
+    } else {
+      return {
+        topSpacing: 80,
+        foodItemsGap: 36,
+        textToButtonGap: 32,
+        bottomSpacing: 60,
+        fontSize: 32,
+        lineHeight: 44,
+      };
+    }
+  };
+
+  const styles = getResponsiveStyles();
+
   return (
-    <ScrollView className="bg-card dark:bg-button w-full h-full relative px-4">
+    <ScrollView
+      className="bg-card dark:bg-button w-full h-full relative px-4"
+      contentContainerStyle={{ minHeight: height }}
+    >
       <Image className="absolute top-[50px] left-0 " source={images.bgLeft} />
       <Image
         style={{ position: "absolute", top: -10, right: 0 }}
@@ -31,53 +74,74 @@ const LandingScreen = () => {
         resizeMode="cover"
         source={images.bgDown}
       />
-      <View className=" flex-col justify-center mt-8 items-center w-full h-full gap-16 px-[16px]">
-        <View className=" gap-[36px] ">
-          <Image className=" absolute h-full" source={images.bgLeaves} />
-          <Image
-            className=" mx-1 top-10 absolute right-0"
-            source={images.leafRight}
-          />
-          <Image
-            className=" mx-1 absolute left-0 top-24"
-            source={images.leafLeft}
-          />
-          <View className="flex-row justify-between    w-full mt-4 px-[20px]">
-            <Image className=" mx-1" source={images.egg} />
-            <Image className=" mx-1" source={images.salmon} />
-          </View>
-          <View className="flex-row justify-between  w-full px-[60px]">
-            <View className="mx-1">
-              <Image className="mb-[-20px] " source={images.pea} />
-              <Image className="-rotate-[12deg]" source={images.pea} />
+
+      <View className="flex-1 justify-center items-center w-full px-[16px]">
+        {/* Main content container - everything centered together */}
+        <View
+          className="items-center w-full"
+          style={{ gap: styles.textToButtonGap * 2 }}
+        >
+          {/* Decorative food items section */}
+          <View className="items-center relative">
+            <View style={{ gap: styles.foodItemsGap }}>
+              <Image className="absolute h-full" source={images.bgLeaves} />
+              <Image
+                className="mx-1 top-10 absolute right-0"
+                source={images.leafRight}
+              />
+              <Image
+                className="mx-1 absolute left-0 top-24"
+                source={images.leafLeft}
+              />
+              <View className="flex-row justify-between w-full mt-4 px-[20px]">
+                <Image className="mx-1" source={images.egg} />
+                <Image className="mx-1" source={images.salmon} />
+              </View>
+              <View className="flex-row justify-between w-full px-[60px]">
+                <View className="mx-1">
+                  <Image className="mb-[-20px]" source={images.pea} />
+                  <Image className="-rotate-[12deg]" source={images.pea} />
+                </View>
+                <Image className="mx-1" source={images.lemon} />
+              </View>
+              <View className="flex-row justify-between w-full px-[20px]">
+                <Image className="mx-1" source={images.cheese} />
+                <Image className="mx-1" source={images.chicken} />
+              </View>
             </View>
-            <Image className=" mx-1" source={images.lemon} />
           </View>
-          <View className="flex-row justify-between w-full px-[20px]">
-            <Image className=" mx-1" source={images.cheese} />
-            <Image className=" mx-1" source={images.chicken} />
-          </View>
-        </View>
-        <View className="gap-[26px] mt-5 mb-10">
-          <Text className="text-white  text-center font-bold text-[28px] leading-[40px]">
-            Help your path to health goals with happiness
-          </Text>
-          <View className="gap-[26px]">
-            <TouchableOpacity
-              onPress={() => router.push("/(auth)")}
-              className="bg-button py-[16px] text-center rounded-[16px]"
+
+          {/* Text and CTA section */}
+          <View className="w-full z-10" style={{ gap: styles.textToButtonGap }}>
+            <Text
+              className="text-white text-center font-bold"
+              style={{
+                fontSize: styles.fontSize,
+                lineHeight: styles.lineHeight,
+              }}
             >
-              <Text className="text-white text-center text-[18px]">Login</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => router.push("/signup")}>
-              <Text className="text-white font-bold text-center text-[18px]">
-                Create New Account
-              </Text>
-            </TouchableOpacity>
+              Help your path to health goals with happiness
+            </Text>
+            <View style={{ gap: styles.textToButtonGap }}>
+              <TouchableOpacity
+                onPress={() => router.push("/(auth)")}
+                className="bg-button py-[16px] text-center rounded-[16px]"
+              >
+                <Text className="text-white text-center text-[18px]">
+                  Login
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => router.push("/signup")}>
+                <Text className="text-white font-bold text-center text-[18px]">
+                  Create New Account
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </View>
     </ScrollView>
   );
 };
+
 export default LandingScreen;

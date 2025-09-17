@@ -39,8 +39,6 @@ const Step2Details = () => {
   const signupMutation = useSignupMutation();
 
   async function onSubmit(data: signFormType) {
-    console.log("submitted", data);
-
     if (data.password !== confirmPasswordInput) {
       setConfirmPasswordError(true);
       return;
@@ -53,7 +51,6 @@ const Step2Details = () => {
         email: email!,
       });
 
-      console.log(response, "submit logkin req");
       reset();
       setConfirmPasswordInput("");
       setConfirmPasswordError(false);

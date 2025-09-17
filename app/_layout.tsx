@@ -32,7 +32,6 @@ export default function RootLayout() {
   });
 
   const path = usePathname();
-  console.log("pathh ", path);
 
   // Get auth state from store with proper subscription
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
@@ -42,7 +41,6 @@ export default function RootLayout() {
   // Initialize Facebook SDK once
   useEffect(() => {
     Settings.initializeSDK();
-    console.log("✅ Facebook SDK initialized");
   }, []);
 
   // Override default font globally

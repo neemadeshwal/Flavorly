@@ -22,27 +22,21 @@ const SinglePopularRecipe = ({ item }: { item: recipe }) => {
 
   useEffect(() => {
     if (user && favouriteArray && favouriteArray.length) {
-      console.log(favouriteArray, "isfavoaurite array");
       const isUserFav = favouriteArray.some(
         (fav: UserData) => fav.uid === user.uid
       );
-      console.log(isUserFav, "isuserfav");
       setIsLiked(!!isUserFav);
     }
   }, [user, favouriteArray]);
 
   const handleLike = async () => {
+    setIsLiked((prev) => !prev);
     try {
       const response = await favouriteMutation.mutateAsync(_id);
-      console.log(response);
     } catch (error) {
       console.log(error);
     }
   };
-
-  useEffect(() => {
-    handleLike();
-  }, [isLiked]);
 
   return (
     <FadeInView duration={1000} delay={200} index={0} staggerDelay={150}>
@@ -58,7 +52,7 @@ const SinglePopularRecipe = ({ item }: { item: recipe }) => {
             />
 
             <Button
-              onPress={() => setIsLiked((prev) => !prev)}
+              onPress={handleLike}
               className="absolute right-6 top-2 bg-white rounded-md p-2"
             >
               {isLiked ? (

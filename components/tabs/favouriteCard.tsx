@@ -14,8 +14,6 @@ import { Text } from "../ui/text";
 const FavouriteCard = ({ item }: { item: recipe }) => {
   const router = useRouter();
 
-  console.log(item, "item favorite");
-
   const [isLiked, setIsLiked] = useState(false);
 
   const { favouriteArray, _id } = item;
@@ -27,23 +25,18 @@ const FavouriteCard = ({ item }: { item: recipe }) => {
       const isUserFav = favouriteArray.some(
         (fav: UserData) => fav.uid === user.uid
       );
-      console.log(isUserFav, "isuserfav");
       setIsLiked(!!isUserFav);
     }
   }, [user, favouriteArray]);
 
   const handleLike = async () => {
+    setIsLiked((prev) => !prev);
     try {
       const response = await favouriteMutation.mutateAsync(_id);
-      console.log(response);
     } catch (error) {
       console.log(error);
     }
   };
-
-  useEffect(() => {
-    handleLike();
-  }, [isLiked]);
 
   return (
     <View>
@@ -58,7 +51,7 @@ const FavouriteCard = ({ item }: { item: recipe }) => {
               source={{ uri: item.imageUrl }}
             />
             <Button
-              onPress={() => setIsLiked((prev) => !prev)}
+              onPress={handleLike}
               className="absolute right-6 top-2 bg-white rounded-md p-2"
             >
               {isLiked ? (

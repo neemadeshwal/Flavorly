@@ -19,7 +19,6 @@ const EditorChoice = ({
   error: Error | null;
 }) => {
   const router = useRouter();
-  console.log(data.recipes, "data in editors");
 
   if (isLoading) {
     return (

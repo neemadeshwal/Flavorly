@@ -29,7 +29,6 @@ const RecipeDetail = () => {
 
   const colorMode = useAuthStore.getState().colorScheme;
   const { id } = useLocalSearchParams();
-  console.log(id);
 
   const recipeId = Array.isArray(id) ? id[0] : id;
   const { data, isLoading, error } = useSingleRecipeDetails(recipeId || "");
@@ -47,24 +46,17 @@ const RecipeDetail = () => {
       const isUserFav = data.recipe.favouriteArray.some(
         (fav: UserData) => fav.uid === user.uid
       );
-      console.log(isUserFav, "isuserfav");
       setIsLiked(!!isUserFav);
     }
   }, [user, data]);
   const handleLike = async () => {
+    setIsLiked((prev) => !prev);
     try {
       const response = await favouriteMutation.mutateAsync(data.recipe._id);
-      console.log(response);
     } catch (error) {
       console.log(error);
     }
   };
-
-  useEffect(() => {
-    handleLike();
-  }, [isLiked]);
-
-  console.log(data, "data check like");
 
   if (isLoading) {
     return (
@@ -120,7 +112,7 @@ const RecipeDetail = () => {
           <Icon as={X} className="text-black" />
         </Button>
         <Button
-          onPress={() => setIsLiked((prev) => !prev)}
+          onPress={handleLike}
           className="bg-white absolute right-6 shadow-xl top-20 z-[1000]"
         >
           {isLiked ? (

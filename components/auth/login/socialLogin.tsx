@@ -30,7 +30,6 @@ const SocialLogin = () => {
   });
 
   useEffect(() => {
-    console.log("Google Auth Response:", response);
     if (response?.type === "success") {
       handleGoogleSignIn(response);
     } else if (response?.type === "error") {

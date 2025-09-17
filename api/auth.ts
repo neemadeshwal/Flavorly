@@ -12,13 +12,11 @@ export const createUserInBackend = async (userData: UserData) => {
 };
 
 export const checkUserExistInDB = async (email: string) => {
-  console.log("baseurl", instance.defaults.baseURL);
   const normalizedEmail = email.trim().toLowerCase();
   try {
     const response = await instance.get("/auth/userExist", {
       params: { email: normalizedEmail },
     });
-    console.log(response);
     return response.data;
   } catch (error) {
     console.log(error, "error searching db");

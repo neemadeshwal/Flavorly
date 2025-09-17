@@ -4,7 +4,6 @@ import instance from "./axios";
 
 export const createNewRecipe = async (recipeData: recipeData) => {
   try {
-    console.log(recipeData, "recipetdata");
     const response = await instance.post("/recipe/new", recipeData);
     return response.data;
   } catch (error) {
@@ -56,10 +55,8 @@ export const getPopularRecipe = async () => {
 
   try {
     let response;
-    console.log(category !== "all", "boolean check");
 
     if (category !== "all") {
-      console.log("hey");
       response = await instance.get(
         `/recipe?isPopularRecipe=true&category=${category.toLowerCase()}`
       );
@@ -140,7 +137,6 @@ export const myRecipes = async (uid: string) => {
 };
 
 export const relatedRecipes = async (id: string) => {
-  console.log(id, "in api");
   try {
     const response = await instance.get(`/recipe/relatedRecipe/${id}`);
     return response.data;

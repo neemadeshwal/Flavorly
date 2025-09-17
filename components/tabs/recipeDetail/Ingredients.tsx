@@ -5,7 +5,6 @@ import React from "react";
 import { View } from "react-native";
 
 const Ingredients = ({ ingredients }: { ingredients: ingredient[] }) => {
-  console.log(ingredients, "ingredients");
   const getFoodEmoji = (itemName: string) => {
     const match = foodEmojis.find((e) =>
       itemName.toLowerCase().includes(e.name)

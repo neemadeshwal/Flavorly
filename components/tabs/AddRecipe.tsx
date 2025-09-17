@@ -91,7 +91,6 @@ const AddRecipe = ({
   });
 
   useEffect(() => {
-    console.log(editData, "editDAta");
     if (isEdit && editData) {
       reset({
         title: editData.title,
@@ -133,8 +132,6 @@ const AddRecipe = ({
   const updateRecipeMutation = useUpdateRecipeMutation();
 
   const onSubmit = async (data: any) => {
-    console.log("hello");
-    console.log("Submitted", data);
     try {
       if (isEdit) {
         const response = await updateRecipeMutation.mutateAsync({

@@ -28,7 +28,6 @@ const LoginForm = () => {
     resolver: zodResolver(loginSchema),
   });
   const [showPassword, setShowPassword] = useState(false);
-  console.log(errors.password);
   const loginMutation = useLoginMutation();
   async function onSubmit(data: loginFormType) {
     if (loginMutation.isPending) return;
@@ -63,7 +62,7 @@ const LoginForm = () => {
               type="text"
               onChangeText={(text) => setValue("email", text)}
               className="
-        text-black placeholder:text-gray-400
+        text-black 
         placeholder:font-[500]
         text-[20px]
         focus:outline-none
@@ -98,7 +97,7 @@ const LoginForm = () => {
             <InputField
               type={showPassword ? "text" : "password"}
               className="
-        text-black placeholder:text-gray-400
+        text-black 
         placeholder:font-[500]
         text-[20px]
             

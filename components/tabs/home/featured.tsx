@@ -13,8 +13,6 @@ import { Spinner } from "../../ui/spinner";
 const Featured = () => {
   const { data, isLoading, error } = useFeaturedRecipeList();
 
-  console.log(data);
-
   if (isLoading) {
     return <Spinner />;
   }

@@ -7,7 +7,6 @@ import { FlatList, Image, Platform, Pressable, View } from "react-native";
 
 const RelatedRecipe = ({ id }: { id: string }) => {
   const router = useRouter();
-  console.log(id, "in rer ");
   const { isLoading, data, error } = useGetRelatedRecipes(id);
   if (isLoading) {
     return <Spinner />;
@@ -26,7 +25,6 @@ const RelatedRecipe = ({ id }: { id: string }) => {
       </View>
     );
   }
-  console.log(data, "related recipe data");
 
   return (
     <View className="pb-10 pt-6">

@@ -67,7 +67,6 @@ export const useGetMyRecipes = (uid: string) => {
 };
 
 export const useGetRelatedRecipes = (id: string) => {
-  console.log(id, "in query");
   const { data, isLoading, error } = useQuery({
     queryKey: ["related-recipes", id],
     queryFn: () => relatedRecipes(id),
