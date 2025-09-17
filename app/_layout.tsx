@@ -12,6 +12,7 @@ import { StatusBar, Text, useColorScheme, View } from "react-native";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
+import NetworkProvider from "@/components/NetworkProvider";
 import { Spinner } from "@/components/ui/spinner";
 import { auth } from "@/services/firebase/config";
 import { useAuthStore } from "@/stores/useUserStore";
@@ -134,19 +135,21 @@ export default function RootLayout() {
   return (
     <QueryClientProvider client={queryClient}>
       <GluestackUIProvider mode={colorScheme}>
-        <SafeAreaProvider>
-          <ThemeProvider
-            value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-          >
-            <StatusBar
-              barStyle={
-                colorScheme === "dark" ? "light-content" : "dark-content"
-              }
-              backgroundColor={colorScheme === "dark" ? "#1a1a1a" : "#ffffff"}
-            />
-            <Stack screenOptions={{ headerShown: false }} />
-          </ThemeProvider>
-        </SafeAreaProvider>
+        <NetworkProvider>
+          <SafeAreaProvider>
+            <ThemeProvider
+              value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+            >
+              <StatusBar
+                barStyle={
+                  colorScheme === "dark" ? "light-content" : "dark-content"
+                }
+                backgroundColor={colorScheme === "dark" ? "#1a1a1a" : "#ffffff"}
+              />
+              <Stack screenOptions={{ headerShown: false }} />
+            </ThemeProvider>
+          </SafeAreaProvider>
+        </NetworkProvider>
       </GluestackUIProvider>
     </QueryClientProvider>
   );
