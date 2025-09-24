@@ -35,7 +35,6 @@ export default function RootLayout() {
   const path = usePathname();
 
   // Get auth state from store with proper subscription
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const isLoading = useAuthStore((state) => state.isLoading);
   const colorScheme = useAuthStore((state) => state.colorScheme); // ✅ Subscribe to color scheme
 
@@ -57,35 +56,23 @@ export default function RootLayout() {
 
   // Initialize auth from SecureStore
   useEffect(() => {
-    console.log("🚀 Initializing auth store...");
     useAuthStore.getState().initializeAuth();
   }, []);
 
   // Listen to Firebase auth state changes and sync with Zustand store
   useEffect(() => {
-    console.log("👂 Setting up Firebase auth listener...");
-
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-      console.log("🔥 Firebase auth state changed:", {
-        hasUser: !!firebaseUser,
-        email: firebaseUser?.email,
-        uid: firebaseUser?.uid,
-      });
-
       // Update Zustand store with Firebase auth state
       useAuthStore.getState().setUser(firebaseUser);
     });
 
     return () => {
-      console.log("🧹 Cleaning up Firebase auth listener");
       unsubscribe();
     };
   }, []);
 
   // ✅ Apply color scheme changes to StatusBar and system UI
   useEffect(() => {
-    console.log("🎨 Applying color scheme:", colorScheme);
-
     // Update StatusBar
     StatusBar.setBarStyle(
       colorScheme === "dark" ? "light-content" : "dark-content",
@@ -99,19 +86,13 @@ export default function RootLayout() {
     );
   }, [colorScheme]);
 
-  // Debug auth state changes
-  useEffect(() => {
-    console.log("🔍 AUTH STATE UPDATE:", {
-      isAuthenticated,
-      isLoading,
-      colorScheme,
-      timestamp: new Date().toISOString(),
-    });
-  }, [isAuthenticated, isLoading, colorScheme]);
+  // const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  // if (isAuthenticated) {
+  //   return <Redirect href="/(tabs)" />;
+  // }
 
   // Show loading while fonts load or auth initializes
   if (!fontsLoaded || isLoading) {
-    console.log("⏳ Loading...", { fontsLoaded, isLoading });
     return (
       <View
         style={{
@@ -129,8 +110,6 @@ export default function RootLayout() {
       </View>
     );
   }
-
-  console.log("🎯 RENDERING LAYOUT:", { isAuthenticated, colorScheme });
 
   return (
     <QueryClientProvider client={queryClient}>

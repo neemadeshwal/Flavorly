@@ -1,5 +1,5 @@
 import NoInternetScreen from "@/components/NoInternetScreen";
-import { useNetworkStatus } from "@/hooks/useNetworkStatus";
+import { useNetworkStatus } from "@/hooks/customHooks/useNetworkStatus";
 import { checkInternetConnectivity } from "@/utils/networkUtils";
 import React, { useEffect, useState } from "react";
 import { View } from "react-native";

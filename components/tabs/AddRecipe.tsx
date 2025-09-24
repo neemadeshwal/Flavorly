@@ -8,7 +8,7 @@ import DropDownPicker from "react-native-dropdown-picker";
 import {
   useAddRecipeMutation,
   useUpdateRecipeMutation,
-} from "@/Mutation/recipe";
+} from "@/hooks/mutation/recipe";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { Modal, ScrollView, TouchableOpacity, View } from "react-native";
 import {
@@ -173,6 +173,7 @@ const AddRecipe = ({
             maxWidth: 500,
             height: "97%",
             borderRadius: 24,
+            zIndex: 10000,
             padding: 16,
             elevation: 10,
             shadowColor: "#000",
@@ -744,11 +745,6 @@ const AddRecipe = ({
                         <Switch
                           value={value}
                           onValueChange={(val) => {
-                            console.log(
-                              "Switch value changed:",
-                              val,
-                              typeof val
-                            );
                             onChange(val);
                           }}
                           size="md"

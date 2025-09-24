@@ -1,4 +1,4 @@
-import { useLikeRecipeMutation } from "@/Mutation/recipe";
+import { useLikeRecipeMutation } from "@/hooks/mutation/recipe";
 import { useAuthStore } from "@/stores/useUserStore";
 import { recipe, UserData } from "@/types";
 import AntDesign from "@expo/vector-icons/AntDesign";

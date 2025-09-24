@@ -4,35 +4,33 @@ import {
   toggleLikeRecipe,
   updateRecipe,
 } from "@/api/recipe";
-import useErrorToast from "@/hooks/useErrorToast";
-import useSuccessToast from "@/hooks/useSuccessToast";
+import useCustomToast from "@/hooks/customHooks/useCustomToast";
 import { recipeData } from "@/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useAddRecipeMutation = () => {
-  const { showSuccessToast } = useSuccessToast();
-  const { showErrorToast } = useErrorToast();
+  const { showCustomToast } = useCustomToast();
 
   return useMutation({
     mutationFn: (data: recipeData) => createNewRecipe(data),
     onSuccess: () => {
-      showSuccessToast({
+      showCustomToast({
         title: "New recipe added",
         message: "successfull",
+        isError: false,
       });
     },
     onError: () => {
-      showErrorToast({
+      showCustomToast({
         title: "Error logging In",
         message: "An Error occured",
-        retryAction: () => {},
+        isError: true,
       });
     },
   });
 };
 export const useUpdateRecipeMutation = () => {
-  const { showSuccessToast } = useSuccessToast();
-  const { showErrorToast } = useErrorToast();
+  const { showCustomToast } = useCustomToast();
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({ id, data }: { id: string; data: recipeData }) =>
@@ -40,49 +38,48 @@ export const useUpdateRecipeMutation = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["my-recipes"] });
 
-      showSuccessToast({
+      showCustomToast({
         title: "recipe updated ",
         message: "successfull",
+        isError: false,
       });
     },
     onError: () => {
-      showErrorToast({
+      showCustomToast({
         title: "Error logging In",
         message: "An Error occured",
-        retryAction: () => {},
+        isError: true,
       });
     },
   });
 };
 
 export const useDeleteRecipeMutation = () => {
-  const { showSuccessToast } = useSuccessToast();
-  const { showErrorToast } = useErrorToast();
+  const { showCustomToast } = useCustomToast();
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (id: string) => deleteRecipe(id),
     onSuccess: () => {
-      console.log("delete recipe");
       queryClient.invalidateQueries({ queryKey: ["my-recipes"] });
 
-      showSuccessToast({
+      showCustomToast({
         title: "delete recipe ",
         message: "successfull",
+        isError: false,
       });
     },
     onError: () => {
-      showErrorToast({
+      showCustomToast({
         title: "Error occurd",
         message: "An Error occured",
-        retryAction: () => {},
+        isError: true,
       });
     },
   });
 };
 
 export const useLikeRecipeMutation = () => {
-  const { showSuccessToast } = useSuccessToast();
-  const { showErrorToast } = useErrorToast();
+  const { showCustomToast } = useCustomToast();
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (id: string) => toggleLikeRecipe(id),
@@ -97,17 +94,18 @@ export const useLikeRecipeMutation = () => {
       queryClient.invalidateQueries({ queryKey: ["my-recipes"] });
 
       if (data && data.isFavorited) {
-        showSuccessToast({
+        showCustomToast({
           title: "recipe liked",
           message: "successfull",
+          isError: false,
         });
       }
     },
     onError: () => {
-      showErrorToast({
+      showCustomToast({
         title: "Error logging In",
         message: "An Error occured",
-        retryAction: () => {},
+        isError: true,
       });
     },
   });

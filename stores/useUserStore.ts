@@ -24,7 +24,6 @@ async function persistToSecureStore(state: Partial<AuthState>) {
     };
 
     await SecureStore.setItemAsync("auth-storage", JSON.stringify(dataToStore));
-    console.log("💾 Auth state persisted to SecureStore");
   } catch (err) {
     console.error("❌ Failed to persist to SecureStore", err);
   }
@@ -41,14 +40,12 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
   // Set email for forms
   setEmail: (email: string) => {
-    console.log("📧 Setting email:", email);
     set({ email });
   },
   setUserName: (name: string) => {
     set({ userName: name });
   },
   setColorScheme: (val: "light" | "dark") => {
-    console.log("🎨 Setting color scheme:", val);
     const newState = { colorScheme: val };
     set(newState);
     // ✅ Persist colorScheme changes
@@ -57,7 +54,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
   // Set token and persist
   setToken: (token: string | null) => {
-    console.log("🎫 Setting token:", !!token);
     const newState = { token };
     set(newState);
     persistToSecureStore({ ...get(), ...newState });
@@ -65,7 +61,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
   // Set user and update authentication state
   setUser: (user: User | null) => {
-    console.log("👤 Setting user:", user ? user.email : "null");
     const isAuthenticated = !!user;
     const newState = {
       user,
@@ -75,23 +70,15 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
     set(newState);
     persistToSecureStore({ ...get(), ...newState });
-
-    console.log("✅ Auth state updated:", {
-      isAuthenticated,
-      email: user?.email,
-    });
   },
 
   // Set loading state
   setLoading: (isLoading: boolean) => {
-    console.log("⏳ Setting loading:", isLoading);
     set({ isLoading });
   },
 
   // Handle successful authentication (call this after Firebase auth succeeds)
   setAuthenticated: (user: User | null, token?: string) => {
-    console.log("🎉 Setting authenticated user:", user ? user.email : "null");
-
     const isAuthenticated = !!user;
     const newState = {
       user,
@@ -103,16 +90,10 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
     set(newState);
     persistToSecureStore(newState);
-
-    console.log("✅ Authentication complete:", {
-      isAuthenticated,
-      email: user?.email,
-    });
   },
 
   // Logout and clear everything
   logout: async () => {
-    console.log("🚪 Logging out...");
     try {
       await auth.signOut();
 
@@ -126,8 +107,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
       set(clearedState);
       await SecureStore.deleteItemAsync("auth-storage");
-
-      console.log("✅ Logout complete");
     } catch (err) {
       console.error("❌ Logout error", err);
     }
@@ -135,7 +114,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
   // Initialize auth from SecureStore
   initializeAuth: async () => {
-    console.log("🚀 Initializing auth from SecureStore...");
     set({ isLoading: true });
 
     try {
@@ -143,13 +121,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
       if (data) {
         const parsed = JSON.parse(data);
-        console.log("📱 Found stored auth data:", {
-          hasUser: !!parsed.user,
-          hasToken: !!parsed.token,
-          isAuthenticated: !!parsed.isAuthenticated,
-        });
-
-        console.log(parsed.token, "token");
 
         const isAuthenticated = !!parsed.token && !!parsed.user;
 
@@ -160,7 +131,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
           user: parsed.user,
         });
       } else {
-        console.log("📭 No stored auth data found");
         set({
           isLoading: false,
           isAuthenticated: false,
@@ -178,7 +148,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
   // Clear auth state (for debugging)
   clearAuthState: async () => {
-    console.log("🧹 Clearing auth state...");
     try {
       await SecureStore.deleteItemAsync("auth-storage");
       set({
@@ -188,7 +157,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         isAuthenticated: false,
         isLoading: false,
       });
-      console.log("✅ Auth state cleared");
     } catch (err) {
       console.error("❌ Failed to clear auth state", err);
     }

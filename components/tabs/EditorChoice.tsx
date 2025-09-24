@@ -2,9 +2,9 @@ import { recipe } from "@/types";
 import { useRouter } from "expo-router";
 import { ArrowRight } from "lucide-react-native";
 import React from "react";
-import { FlatList, Image, View } from "react-native";
+import { FlatList, Image, TouchableOpacity, View } from "react-native";
 import AnimatedPressable from "../animation";
-import FadeInView from "../animation/FadeIn";
+import FadeInView from "../animation/fadeIn";
 import { Icon } from "../ui/icon";
 import { Spinner } from "../ui/spinner";
 import { Text } from "../ui/text";
@@ -22,32 +22,56 @@ const EditorChoice = ({
 
   if (isLoading) {
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Spinner />
+      <View className="flex-1 justify-center items-center bg-gray-50">
+        <View className="items-center">
+          <Spinner size="large" />
+          <Text className="mt-4 text-gray-600 text-lg">
+            Loading editor's choice...
+          </Text>
+        </View>
       </View>
     );
   }
 
   if (error || !data?.success) {
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text className="text-red-500 text-[16px]">
-          Oops! An error occurred.
-        </Text>
+      <View className="flex-1 justify-center items-center px-6 bg-gray-50">
+        <View className="items-center bg-white p-6 rounded-2xl shadow-sm border border-gray-100 max-w-sm">
+          <Text className="text-5xl mb-4">⚠️</Text>
+          <Text className="text-gray-800 text-lg font-semibold mb-2 text-center">
+            Something went wrong
+          </Text>
+          <Text className="text-gray-600 text-center mb-4">
+            {error?.message ||
+              "Unable to load editor's choice recipes. Please try again."}
+          </Text>
+          <TouchableOpacity
+            className="bg-card px-6 py-3 rounded-lg"
+            onPress={() => window.location.reload()}
+          >
+            <Text className="text-white font-medium">Try Again</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
 
   if (!data.recipes?.length) {
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text className="text-gray-500 text-[18px] text-center">
-          No editors choice recipes. Try adding one.
-        </Text>
+      <View className="flex-1 justify-center items-center px-6 bg-gray-50">
+        <View className="items-center bg-white p-8 rounded-2xl shadow-sm border border-gray-100 max-w-sm">
+          <Text className="text-6xl mb-4">👨‍🍳</Text>
+          <Text className="text-gray-800 text-xl font-semibold mb-2 text-center">
+            No Editor's Choice Yet
+          </Text>
+          <Text className="text-gray-600 text-center mb-6">
+            Be the first to add a recipe to our curated collection of
+            exceptional dishes.
+          </Text>
+        </View>
       </View>
     );
   }
-
   return (
     <View style={{ flex: 1 }}>
       <View className="justify-between mb-4 items-center flex-row">

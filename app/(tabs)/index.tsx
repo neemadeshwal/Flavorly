@@ -1,7 +1,7 @@
-import Category from "@/components/tabs/home/category";
-import Featured from "@/components/tabs/home/featured";
-import GreetComponent from "@/components/tabs/home/greetComponent";
-import PopularRecipes from "@/components/tabs/home/popularRecipes";
+import Category from "@/components/tabs/home/Category";
+import Featured from "@/components/tabs/home/Featured";
+import GreetComponent from "@/components/tabs/home/GreetComponent";
+import PopularRecipes from "@/components/tabs/home/PopularRecipes";
 import React from "react";
 import { ScrollView, View } from "react-native";
 const Home = () => {

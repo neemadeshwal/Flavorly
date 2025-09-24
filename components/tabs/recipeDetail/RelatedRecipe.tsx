@@ -1,6 +1,6 @@
 import { Spinner } from "@/components/ui/spinner";
 import { Text } from "@/components/ui/text";
-import { useGetRelatedRecipes } from "@/Query/recipe";
+import { useGetRelatedRecipes } from "@/hooks/query/recipe";
 import { useRouter } from "expo-router";
 import React from "react";
 import { FlatList, Image, Platform, Pressable, View } from "react-native";
@@ -9,19 +9,53 @@ const RelatedRecipe = ({ id }: { id: string }) => {
   const router = useRouter();
   const { isLoading, data, error } = useGetRelatedRecipes(id);
   if (isLoading) {
-    return <Spinner />;
-  }
-  if (error) {
     return (
-      <View>
-        <Text>Oops! an error occured</Text>
+      <View className="py-4">
+        <Text className="text-xl font-bold text-gray-900 mb-4">
+          Related Recipes
+        </Text>
+        <View className="flex-row justify-center py-8">
+          <Spinner />
+        </View>
       </View>
     );
   }
-  if (!data || !data.recipes) {
+
+  if (error) {
     return (
-      <View>
-        <Text>No related recipe there.</Text>
+      <View className="py-4">
+        <Text className="text-xl font-bold text-gray-900 mb-4">
+          Related Recipes
+        </Text>
+        <View className="p-4 bg-red-50 rounded-lg border border-red-200">
+          <View className="flex-row items-center">
+            <Text className="text-red-700 flex-1">
+              Unable to load related recipes
+            </Text>
+            <Text className="text-red-500 text-sm ml-2">Retrying...</Text>
+          </View>
+        </View>
+      </View>
+    );
+  }
+
+  if (!data || !data.recipes || data.recipes.length === 0) {
+    return (
+      <View className="py-4">
+        <Text className="text-xl font-bold text-gray-900 mb-4">
+          Related Recipes
+        </Text>
+        <View className="p-4 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
+          <View className="items-center">
+            <Text className="text-4xl mb-2">🍳</Text>
+            <Text className="text-gray-600 text-center mb-1">
+              No related recipes found
+            </Text>
+            <Text className="text-gray-500 text-sm text-center">
+              Try exploring other recipes in our collection
+            </Text>
+          </View>
+        </View>
       </View>
     );
   }

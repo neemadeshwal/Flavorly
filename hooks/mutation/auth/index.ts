@@ -3,15 +3,13 @@ import {
   createUserInBackend,
   updateUserDetail,
 } from "@/api/auth";
-import useErrorToast from "@/hooks/useErrorToast";
-import useSuccessToast from "@/hooks/useSuccessToast";
+import useCustomToast from "@/hooks/customHooks/useCustomToast";
 import { handleSignIn, handleSignup } from "@/services/firebase/auth";
 import { useAuthStore } from "@/stores/useUserStore";
 import { UserData } from "@/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 export const useSignupMutation = () => {
-  const { showSuccessToast } = useSuccessToast();
-  const { showErrorToast } = useErrorToast();
+  const { showCustomToast } = useCustomToast();
   return useMutation({
     mutationFn: handleSignup,
     onSuccess: async ({ user, data }: any) => {
@@ -38,45 +36,42 @@ export const useSignupMutation = () => {
         useAuthStore
           .getState()
           .setUserName(userData.firstname + " " + userData.lastname);
-        showSuccessToast({
+        showCustomToast({
           title: "Signup Success",
           message: `Welcome! ${
             user?.displayName || userData.firstname + " " + userData.lastname
           }`,
-          retryAction: () => {},
+          isError: false,
         });
-        console.log("Signup success: ", user!.email);
       } catch (error) {
         console.log(error);
-        showErrorToast({
+        showCustomToast({
           title: "Error in Signup",
           message:
             error instanceof Error
               ? error.message
               : "Failed to complete account setup",
-
-          retryAction: () => {},
+          isError: true,
         });
         throw error;
       }
     },
     onError: () => {
-      showErrorToast({
+      showCustomToast({
         title: "Error in Signup",
         message: "An Error occured",
-        retryAction: () => {},
+        isError: true,
       });
     },
   });
 };
 
 export const useEmailCheckMutation = () => {
-  const { showErrorToast } = useErrorToast();
+  const { showCustomToast } = useCustomToast();
 
   return useMutation({
     mutationFn: async (email: string) => {
       const response = await checkUserExistInDB(email);
-      console.log(response);
       if (!response.success) {
         throw new Error("Email already exists");
       }
@@ -87,43 +82,39 @@ export const useEmailCheckMutation = () => {
       // Do nothing — allow form to continue
     },
     onError: (error) => {
-      showErrorToast({
+      showCustomToast({
         title: "Account Exists",
         message: error.message || "An account with this email already exists.",
-        retryAction: () => {},
+        isError: true,
       });
     },
   });
 };
 
 export const useLoginMutation = () => {
-  const { showErrorToast } = useErrorToast();
-  const { showSuccessToast } = useSuccessToast();
+  const { showCustomToast } = useCustomToast();
 
   return useMutation({
     mutationFn: handleSignIn,
     onSuccess: (user) => {
-      console.log("Login success: ");
-
-      showSuccessToast({
+      showCustomToast({
         title: "Login Success",
         message: `Welcome! ${"User"}`,
-        retryAction: () => {},
+        isError: false,
       });
     },
     onError: () => {
-      showErrorToast({
+      showCustomToast({
         title: "Error logging In",
         message: "An Error occured",
-        retryAction: () => {},
+        isError: true,
       });
     },
   });
 };
 
 export const useUpdateMutation = () => {
-  const { showErrorToast } = useErrorToast();
-  const { showSuccessToast } = useSuccessToast();
+  const { showCustomToast } = useCustomToast();
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({
@@ -136,21 +127,24 @@ export const useUpdateMutation = () => {
     onSuccess: (data) => {
       if (data.success) {
         queryClient.invalidateQueries({ queryKey: ["user-detail"] });
-        showSuccessToast({
+        showCustomToast({
           title: "Success",
           message: "Profile updated successfully.",
+          isError: false,
         });
       } else {
-        showErrorToast({
+        showCustomToast({
           title: "Error occured",
           message: "An Error occured updating profile. Please try again.",
+          isError: true,
         });
       }
     },
     onError: () => {
-      showErrorToast({
+      showCustomToast({
         title: "Error occured",
         message: "An Error occured",
+        isError: true,
       });
     },
   });

@@ -5,8 +5,8 @@ import React from "react";
 import { Image, TouchableOpacity, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { SafeAreaView } from "react-native-safe-area-context";
-import LoginForm from "./loginForm";
-import SocialLogin from "./socialLogin";
+import LoginForm from "./LoginForm";
+import SocialLogin from "./SocialLogin";
 
 const Login = () => {
   const router = useRouter();

@@ -4,8 +4,8 @@ import RelatedRecipe from "@/components/tabs/recipeDetail/RelatedRecipe";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { Text } from "@/components/ui/text";
-import { useLikeRecipeMutation } from "@/Mutation/recipe";
-import { useSingleRecipeDetails } from "@/Query/recipe";
+import { useLikeRecipeMutation } from "@/hooks/mutation/recipe";
+import { useSingleRecipeDetails } from "@/hooks/query/recipe";
 import { useAuthStore } from "@/stores/useUserStore";
 import { UserData } from "@/types";
 import AntDesign from "@expo/vector-icons/AntDesign";
@@ -57,40 +57,82 @@ const RecipeDetail = () => {
       console.log(error);
     }
   };
-
   if (isLoading) {
     return (
-      <View className="flex-1 justify-center items-center">
-        <ActivityIndicator size="large" color="#609ea3ff" />
-        <Text className="mt-4 text-[16px]">Loading recipe...</Text>
+      <View className="flex-1 justify-center items-center bg-gray-50">
+        <View className="items-center">
+          <ActivityIndicator size="large" color="#609ea3ff" />
+          <Text className="mt-4 text-gray-600 text-lg">Loading recipe...</Text>
+          <Text className="text-gray-400 text-sm mt-1">
+            Please wait a moment
+          </Text>
+        </View>
       </View>
     );
   }
 
   if (error) {
     return (
-      <View className="flex-1 justify-center items-center px-6">
-        <Text className="text-red-500 text-[18px] text-center mb-4">
-          Failed to load recipe details
-        </Text>
-        <Button onPress={() => router.back()}>
-          <Text className="text-white">Go Back</Text>
-        </Button>
+      <View className="flex-1 justify-center items-center px-6 bg-gray-50">
+        <View className="items-center bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+          <Text className="text-6xl mb-4">😔</Text>
+          <Text className="text-gray-800 text-xl font-semibold mb-2 text-center">
+            Oops! Something went wrong
+          </Text>
+          <Text className="text-gray-600 text-center mb-6">
+            We couldn't load this recipe. Please check your connection and try
+            again.
+          </Text>
+          <View className="flex-row gap-3">
+            <Button
+              variant="outline"
+              onPress={() => window.location.reload()}
+              className="flex-1 border-gray-300"
+            >
+              <Text className="text-gray-700">Try Again</Text>
+            </Button>
+            <Button
+              onPress={() => router.back()}
+              className="flex-1 bg-[#609ea3ff]"
+            >
+              <Text className="text-white">Go Back</Text>
+            </Button>
+          </View>
+        </View>
       </View>
     );
   }
 
   if (!data?.recipe) {
     return (
-      <View className="flex-1 justify-center items-center px-6">
-        <Text className="text-[18px] text-center mb-4">Recipe not found</Text>
-        <Button onPress={() => router.back()}>
-          <Text className="text-white">Go Back</Text>
-        </Button>
+      <View className="flex-1 justify-center items-center px-6 bg-gray-50">
+        <View className="items-center bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+          <Text className="text-6xl mb-4">🔍</Text>
+          <Text className="text-gray-800 text-xl font-semibold mb-2 text-center">
+            Recipe Not Found
+          </Text>
+          <Text className="text-gray-600 text-center mb-6">
+            This recipe might have been removed or the link is incorrect.
+          </Text>
+          <View className="flex-row gap-3">
+            <Button
+              variant="outline"
+              onPress={() => router.push("/")}
+              className="flex-1 border-gray-300"
+            >
+              <Text className="text-gray-700">Browse Recipes</Text>
+            </Button>
+            <Button
+              onPress={() => router.back()}
+              className="flex-1 bg-[#609ea3ff]"
+            >
+              <Text className="text-white">Go Back</Text>
+            </Button>
+          </View>
+        </View>
       </View>
     );
   }
-
   return (
     <View className="flex-1">
       <ImageBackground

@@ -1,5 +1,5 @@
-import { useDeleteRecipeMutation } from "@/Mutation/recipe";
-import { useGetMyRecipes } from "@/Query/recipe";
+import { useDeleteRecipeMutation } from "@/hooks/mutation/recipe";
+import { useGetMyRecipes } from "@/hooks/query/recipe";
 import { useAuthStore } from "@/stores/useUserStore";
 import { recipe } from "@/types";
 import React, { useState } from "react";
@@ -29,27 +29,64 @@ const MyRecipes = () => {
     }
   };
   if (!user) {
-    return <Spinner />;
+    return (
+      <View className="flex-1 justify-center items-center bg-gray-50">
+        <View className="items-center">
+          <Spinner size="large" />
+          <Text className="mt-4 text-gray-600 text-lg">
+            Loading your profile...
+          </Text>
+        </View>
+      </View>
+    );
   }
 
   const { data, isLoading, error } = useGetMyRecipes(user.uid);
 
   if (isLoading) {
-    return <Spinner />;
-  }
-
-  if (error) {
     return (
-      <View>
-        <Text>Oops! an error occured</Text>
+      <View className="py-4">
+        <Text className="text-xl font-bold text-gray-900 mb-4">My Recipes</Text>
+        <View className="flex-row justify-center py-8">
+          <Spinner />
+          <Text className="ml-3 text-gray-600">Loading your recipes...</Text>
+        </View>
       </View>
     );
   }
 
-  if (!data.data.length) {
+  if (error) {
     return (
-      <View>
-        <Text>No my recipe . Try adding one</Text>
+      <View className="py-4">
+        <Text className="text-xl font-bold text-gray-900 mb-4">My Recipes</Text>
+        <View className="p-4 bg-red-50 rounded-lg border border-red-200">
+          <View className="flex-row items-center">
+            <Text className="text-red-700 flex-1">
+              Unable to load your recipes
+            </Text>
+            <Text className="text-red-500 text-sm ml-2">Retrying...</Text>
+          </View>
+        </View>
+      </View>
+    );
+  }
+
+  if (!data?.data?.length) {
+    return (
+      <View className="py-4">
+        <Text className="text-xl font-bold text-gray-900 mb-4">My Recipes</Text>
+        <View className="p-8 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl border-2 border-dashed border-blue-300">
+          <View className="items-center">
+            <Text className="text-6xl mb-4">📝</Text>
+            <Text className="text-gray-800 text-xl font-semibold mb-2 text-center">
+              Start Your Recipe Collection
+            </Text>
+            <Text className="text-gray-600 text-center mb-6">
+              Share your culinary creations with the world! Create your first
+              recipe and build your personal cookbook.
+            </Text>
+          </View>
+        </View>
       </View>
     );
   }

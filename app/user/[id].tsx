@@ -5,7 +5,7 @@ import { Icon } from "@/components/ui/icon";
 import { Spinner } from "@/components/ui/spinner";
 import { Switch } from "@/components/ui/switch";
 import { Text } from "@/components/ui/text";
-import { useGetUserDetails } from "@/Query/auth";
+import { useGetUserDetails } from "@/hooks/query/auth";
 import { useAuthStore } from "@/stores/useUserStore";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { ArrowLeft, LogOut, MoonIcon, User } from "lucide-react-native";

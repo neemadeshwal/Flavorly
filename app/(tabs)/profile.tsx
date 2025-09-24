@@ -1,7 +1,7 @@
 import MyRecipes from "@/components/tabs/MyRecipes";
 import Account from "@/components/tabs/profile/Account";
 import { Spinner } from "@/components/ui/spinner";
-import { useGetUserDetails } from "@/Query/auth";
+import { useGetUserDetails } from "@/hooks/query/auth";
 import { useAuthStore } from "@/stores/useUserStore";
 import React from "react";
 import { KeyboardAvoidingView, Text, View } from "react-native";

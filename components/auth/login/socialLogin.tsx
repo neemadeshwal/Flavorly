@@ -41,11 +41,9 @@ const SocialLogin = () => {
     setLoading(true);
     try {
       const result = await signInWithGoogle(authResponse);
-      console.log(result, "in social comp");
 
       if (result.success) {
         router.replace("/(tabs)");
-        console.log("Google sign-in successful:", result.user);
       } else {
         console.error("Google sign-in failed:", result.error);
       }
@@ -59,11 +57,9 @@ const SocialLogin = () => {
     setLoading(true);
     try {
       const result = await signInWithFB();
-      console.log(result, "in social comp");
 
       if (result.success) {
         router.replace("/(tabs)");
-        console.log("FB sign-in successful:", result.user);
       } else {
         console.error("FB sign-in failed:");
       }
@@ -74,8 +70,9 @@ const SocialLogin = () => {
     }
   };
   if (loading) {
-    <View className="flex-1 w-full h-full bg-white/50 z-[1000]">
+    <View className="flex-1 gap-3 items-center w-full h-full bg-white/50 z-[1000]">
       <Spinner />
+      <Text>Loading ...</Text>
     </View>;
   }
   return (

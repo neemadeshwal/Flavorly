@@ -41,8 +41,8 @@ export default {
     },
 
     // Social integrations
-    facebookAppId: "1836859623843054",
-    facebookDisplayName: "RN SDK Demo",
+    facebookAppId: process.env.EXPO_PUBLIC_FACEBOOK_APP_ID,
+    facebookDisplayName: process.env.EXPO_PUBLIC_DISPLAYNAME,
 
     // Extra vars (from .env)
     extra: {
@@ -54,7 +54,7 @@ export default {
       appId: process.env.FIREBASE_APP_ID,
 
       eas: {
-        projectId: "4f73e7cb-fa89-4a2e-b7f2-d4a45fa24929",
+        projectId: process.env.EXPO_PUBLIC_EAS_PROJECT_ID,
       },
     },
 
@@ -65,10 +65,10 @@ export default {
       [
         "react-native-fbsdk-next",
         {
-          appID: "1836859623843054",
-          clientToken: "43c54a288d50f3bd39775421d99ddc01",
-          displayName: "RN SDK Demo",
-          scheme: "fb1836859623843054",
+          appID: process.env.EXPO_PUBLIC_FACEBOOK_APP_ID,
+          clientToken: process.env.EXPO_PUBLIC_FACEBOOK_CLIENT_TOKEN,
+          displayName: process.env.EXPO_PUBLIC_DISPLAYNAME,
+          scheme: process.env.EXPO_PUBLIC_SCHEME,
           advertiserIDCollectionEnabled: false,
           autoLogAppEventsEnabled: false,
           isAutoInitEnabled: true,

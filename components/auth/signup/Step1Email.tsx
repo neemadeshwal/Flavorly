@@ -11,7 +11,7 @@ import { Input, InputField } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import { Text } from "@/components/ui/text";
 import { VStack } from "@/components/ui/vstack";
-import { useEmailCheckMutation } from "@/Mutation/auth";
+import { useEmailCheckMutation } from "@/hooks/mutation/auth";
 import { EmailSchema } from "@/schema";
 import { useAuthStore } from "@/stores/useUserStore";
 import { emailFormProps } from "@/types";
@@ -34,9 +34,7 @@ const Step1Email = () => {
   async function onSubmitEmail(data: { email: string }) {
     try {
       const { email } = data;
-      const response = await emailMutation.mutateAsync(email);
-
-      console.log(response);
+      await emailMutation.mutateAsync(email);
 
       setEmail(data.email);
     } catch (error) {

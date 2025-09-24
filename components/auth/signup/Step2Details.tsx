@@ -1,4 +1,3 @@
-import { useSignupMutation } from "@/Mutation/auth";
 import { Button, ButtonText } from "@/components/ui/button";
 import {
   FormControl,
@@ -10,6 +9,7 @@ import { Input, InputField } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import { Text } from "@/components/ui/text";
 import { VStack } from "@/components/ui/vstack";
+import { useSignupMutation } from "@/hooks/mutation/auth";
 import { signupSchema } from "@/schema";
 import { useAuthStore } from "@/stores/useUserStore";
 import { signFormType } from "@/types";

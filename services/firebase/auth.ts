@@ -28,7 +28,6 @@ const handleSignup = async ({
       normalizedEmail,
       password
     );
-    console.log("User signup  successful");
     const data = {
       email: normalizedEmail,
       password,
@@ -66,7 +65,6 @@ const handleSignIn = async ({ email, password }: loginFormProps) => {
     if (!userData.success) {
       throw new Error(userData.message || "User donot exist in db.");
     }
-    console.log("User logged in successful");
 
     useAuthStore
       .getState()
@@ -90,9 +88,6 @@ const checkEmailExists = async (email: string) => {
       where("data.email", "==", normalizedEmail)
     );
     const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      console.log("Document data:", doc.data());
-    });
 
     return !querySnapshot.empty;
   } catch (error) {
@@ -103,20 +98,11 @@ const checkEmailExists = async (email: string) => {
 
 export const signInWithGoogle = async (authResponse: any): Promise<any> => {
   try {
-    console.log("Processing auth response:", authResponse);
-
     if (authResponse.type === "success") {
       const { id_token, access_token } = authResponse.params;
-      console.log(
-        "Tokens received - ID Token:",
-        !!id_token,
-        "Access Token:",
-        !!access_token
-      );
 
       const credential = GoogleAuthProvider.credential(id_token, access_token);
       const userCredential = await signInWithCredential(auth, credential);
-      console.log("Firebase sign-in successful:", userCredential.user.email);
 
       // Update your auth store
       const user = userCredential.user;

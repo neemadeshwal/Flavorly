@@ -21,3 +21,16 @@ instance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 export default instance;
+
+instance.interceptors.request.use(
+  (response) => response,
+  (error) => {
+    const status = error.response?.status;
+
+    if (status === 401) {
+      useAuthStore.getState().logout?.();
+      window.location.href = "/(auth)";
+    }
+    return Promise.reject(error);
+  }
+);

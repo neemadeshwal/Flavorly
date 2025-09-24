@@ -1,4 +1,4 @@
-import { useLikeRecipeMutation } from "@/Mutation/recipe";
+import { useLikeRecipeMutation } from "@/hooks/mutation/recipe";
 import { useAuthStore } from "@/stores/useUserStore";
 import { recipe, UserData } from "@/types";
 import AntDesign from "@expo/vector-icons/AntDesign";
@@ -8,7 +8,7 @@ import { Clock, Dot } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
 import { Image, View } from "react-native";
 import AnimatedPressable from "../animation";
-import FadeInView from "../animation/FadeIn";
+import FadeInView from "../animation/fadeIn";
 import { Button } from "../ui/button";
 import { Icon } from "../ui/icon";
 import { Text } from "../ui/text";
@@ -32,7 +32,7 @@ const SinglePopularRecipe = ({ item }: { item: recipe }) => {
   const handleLike = async () => {
     setIsLiked((prev) => !prev);
     try {
-      const response = await favouriteMutation.mutateAsync(_id);
+      await favouriteMutation.mutateAsync(_id);
     } catch (error) {
       console.log(error);
     }

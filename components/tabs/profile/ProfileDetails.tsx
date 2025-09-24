@@ -8,11 +8,11 @@ import {
 } from "@/components/ui/drawer";
 import { Text } from "@/components/ui/text";
 import { Textarea, TextareaInput } from "@/components/ui/textarea";
-import { useUpdateMutation } from "@/Mutation/auth";
+import { useUpdateMutation } from "@/hooks/mutation/auth";
 import { userDetailSchema } from "@/schema";
 import { UserData, userDetailFormType } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Ban } from "lucide-react-native";
+import { AlertCircle, Ban } from "lucide-react-native";
 import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { View } from "react-native";
@@ -52,7 +52,7 @@ const ProfileDetails = ({
   const updateMutation = useUpdateMutation();
   async function onSubmit(values: any) {
     try {
-      const response = await updateMutation.mutateAsync({
+      await updateMutation.mutateAsync({
         uid: profileDetail.uid,
         userDetailData: values,
       });
@@ -71,20 +71,47 @@ const ProfileDetails = ({
       });
     }
   }, []);
-  if (isLoading) {
-    return <Spinner />;
-  }
-  if (error) {
+  if (isLoading && !profileDetail) {
     return (
-      <View>
-        <Text>Oops error occured</Text>
+      <View className="flex-1 justify-center items-center p-6">
+        <Spinner size="large" />
+        <Text className="mt-4 text-gray-600">Loading profile...</Text>
       </View>
     );
   }
+
+  // Error state
+  if (error) {
+    return (
+      <View className="flex-1 justify-center items-center p-6">
+        <Icon as={AlertCircle} className="text-red-500 mb-4" size={48} />
+        <Text className="text-lg font-semibold text-gray-800 mb-2 text-center">
+          Unable to Load Profile
+        </Text>
+        <Text className="text-gray-600 text-center mb-4">
+          {error.message || "Something went wrong. Please try again."}
+        </Text>
+        <Button
+          variant="outline"
+          onPress={() => window.location.reload()}
+          className="px-6"
+        >
+          <ButtonText>Try Again</ButtonText>
+        </Button>
+      </View>
+    );
+  }
+
+  // No data state
   if (!profileDetail) {
     return (
-      <View>
-        <Text>No data</Text>
+      <View className="flex-1 justify-center items-center p-6">
+        <Text className="text-lg font-semibold text-gray-800 mb-2">
+          No Profile Data
+        </Text>
+        <Text className="text-gray-600 text-center">
+          Unable to find your profile information.
+        </Text>
       </View>
     );
   }

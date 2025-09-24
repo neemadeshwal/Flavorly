@@ -9,7 +9,7 @@ import { Input, InputField } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import { Text } from "@/components/ui/text";
 import { VStack } from "@/components/ui/vstack";
-import { useLoginMutation } from "@/Mutation/auth";
+import { useLoginMutation } from "@/hooks/mutation/auth";
 import { loginSchema } from "@/schema";
 import { loginFormType } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -32,10 +32,8 @@ const LoginForm = () => {
   async function onSubmit(data: loginFormType) {
     if (loginMutation.isPending) return;
     try {
-      const response = await loginMutation.mutateAsync(data);
-      console.log(response, "Successfuly logged in");
+      await loginMutation.mutateAsync(data);
       router.push("/(tabs)");
-      console.log(response);
     } catch (error) {
       console.log(error);
     }

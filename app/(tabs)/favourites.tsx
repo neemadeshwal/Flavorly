@@ -1,4 +1,4 @@
-import Myfavourite from "@/components/tabs/myfavourite";
+import Myfavourite from "@/components/tabs/Myfavourite";
 import React from "react";
 import { View } from "react-native";
 

@@ -1,5 +1,5 @@
+import { subscribeToNetworkChanges } from "@/utils/networkUtils";
 import { useEffect, useState } from "react";
-import { subscribeToNetworkChanges } from "../utils/networkUtils";
 
 export const useNetworkStatus = () => {
   const [isConnected, setIsConnected] = useState<boolean>(true);

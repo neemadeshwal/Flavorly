@@ -1,8 +1,8 @@
 import AnimatedPressable from "@/components/animation";
-import FadeInView from "@/components/animation/FadeIn";
+import FadeInView from "@/components/animation/fadeIn";
 import { Text } from "@/components/ui/text";
 import { images } from "@/constants/images";
-import { useFeaturedRecipeList } from "@/Query/recipe";
+import { useFeaturedRecipeList } from "@/hooks/query/recipe";
 import { useRouter } from "expo-router";
 import { Clock } from "lucide-react-native";
 import React from "react";
@@ -13,23 +13,37 @@ import { Spinner } from "../../ui/spinner";
 const Featured = () => {
   const { data, isLoading, error } = useFeaturedRecipeList();
 
-  if (isLoading) {
+  if (isLoading && !data) {
     return <Spinner />;
   }
+
   if (error || !data.success) {
     return (
-      <View>
-        <Text> Oops! an error occured.</Text>
+      <View className="py-2">
+        <Text className="text-xl font-bold text-gray-900 mb-2">
+          Featured Recipes
+        </Text>
+        <View className="flex-row items-center">
+          <Text className="text-gray-500">Unable to load</Text>
+          <Text className="mx-2 text-gray-400">•</Text>
+          <Text className="text-colored">Retrying...</Text>
+        </View>
       </View>
     );
   }
-
   if (!data.recipes.length) {
     return (
-      <View>
-        <Text className="text-gray-500 text-[18px]">
-          No featured product. Trying adding one.
-        </Text>
+      <View className="p-6 bg-gray-50 rounded-lg border border-gray-200">
+        <View className="items-center">
+          <Text className="text-2xl mb-2">👨‍🍳</Text>
+          <Text className="text-lg font-semibold text-gray-800 mb-2">
+            No Featured Recipes Yet
+          </Text>
+          <Text className="text-gray-500 text-center mb-4">
+            Ready to showcase some delicious recipes? Add your first featured
+            recipe to get started.
+          </Text>
+        </View>
       </View>
     );
   }
