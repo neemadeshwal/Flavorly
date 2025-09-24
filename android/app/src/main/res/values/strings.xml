@@ -1,6 +1,0 @@
-<resources>
-  <string name="app_name">Flavorly</string>
-  <string name="facebook_app_id">1836859623843054</string>
-  <string name="facebook_client_token">43c54a288d50f3bd39775421d99ddc01</string>
-  <string name="fb_login_protocol_scheme">fb1836859623843054</string>
-</resources>
